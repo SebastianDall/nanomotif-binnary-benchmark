@@ -3,13 +3,16 @@ import polars as pl
 import pandas as pd
 import random
 
-PERCENT_OF_BINS_WITH_CONTAMINATION = [0.1, 0.3, 0.5, 0.7, 0.9]
-NUMBER_OF_CONTAMINANTS = [1, 2, 3]
+# PERCENT_OF_BINS_WITH_CONTAMINATION = [0.1, 0.3, 0.5, 0.7, 0.9]
+# NUMBER_OF_CONTAMINANTS = [1, 2, 3]
 
-contig_bin = pd.read_csv("data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv", sep = "\t")
-bin_contigs = {}
-for bin in contig_bin["bin"].unique():
-    bin_contigs[bin] = contig_bin[contig_bin["bin"] == bin]["contig"].to_list()
+def associate_bin_with_contigs(contig_bin):
+    bin_contigs = {}
+    for bin in contig_bin["bin"].unique():
+        bin_contigs[bin] = contig_bin[contig_bin["bin"] == bin]["contig"].to_list()
+
+    return bin_contigs
+    
 
 
 def shuffle_contigs_between_bins(bin_contigs, num_contigs_to_shuffle):
@@ -42,7 +45,17 @@ def write_contig_bin_file(bin_contigs, filename):
         for bin, contigs in bin_contigs.items():
             for contig in contigs:
                 f.write(f"{contig}\t{bin}\n")    
+    print(f"Created file {filename}")
 
 
-new_contig_bin = shuffle_contigs_between_bins(bin_contigs, 1)
-write_contig_bin_file(new_contig_bin, "test.tsv")
+if __name__ == '__main__':
+    random.seed(42)
+    contig_bin = pd.read_csv("data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv", sep = "\t")
+
+    contigs_in_bin = associate_bin_with_contigs(contig_bin)
+
+    for i in range(0,5):
+        print(f"Shuffling benchmark {i}")
+        shuffled_contigs = shuffle_contigs_between_bins(contigs_in_bin, 1)
+        print(shuffled_contigs)
+        write_contig_bin_file(shuffled_contigs, f"files/benchmarks/benchmark_{i}_shuffle_1_contig.tsv")
