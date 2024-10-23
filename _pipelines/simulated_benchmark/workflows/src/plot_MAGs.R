@@ -19,11 +19,11 @@ parser$add_argument("--output", required = TRUE, help = "Path to the output file
 # Parse arguments
 args <- parser$parse_args()
 args <- list(
-    motifs_scored = "output/baseline/motif_discovery/original_no_shuffling/motifs-scored.tsv",
-    bin_motifs = "output/baseline/motif_discovery/original_no_shuffling/bin-motifs.tsv",
+    motifs_scored = "output/baseline/motif_discovery/simulated_3_lognormal/original_contig_bin/motifs-scored.tsv",
+    bin_motifs = "output/baseline/motif_discovery/simulated_3_lognormal/original_contig_bin/bin-motifs.tsv",
     contig_bins = "files/benchmarks/benchmark_0_shuffle_1_contig.tsv", # "data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv",
     contig_bins_truth = "data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv",
-    bin_contamination = "output/benchmarks/test/benchmark_0_shuffle_1_contig/bin_contamination.tsv",
+    bin_contamination = "output/benchmarks/detect_contamination/test/simulated_3_lognormal/benchmark_0_shuffle_1_contig/bin_contamination.tsv",
     mean_methylation_cutoff = 0.25,
     n_motif_contig_cutoff = 10,
     n_motif_bin_cutoff = 500,
@@ -63,9 +63,10 @@ contig_bins <- fread(args$contig_bins, header = FALSE) %>%
         bin = 2
     )
 
-contig_bins_truth <- fread(args$contig_bins_truth) %>% 
+contig_bins_truth <- fread(args$contig_bins_truth) %>%
     rename(
-        bin_truth = bin
+        contig = 1,
+        bin_truth = 2
     )
 
 bin_contamination <- fread(args$bin_contamination) %>%

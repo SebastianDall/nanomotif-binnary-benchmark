@@ -3,54 +3,71 @@ import glob
 import datetime
 
 SNAKEDIR = os.path.dirname(workflow.snakefile)
-configfile: os.path.join(SNAKEDIR, "..", "config", "config.yaml")
+configfile: os.path.join(SNAKEDIR, "..", "config", "config-contamination.yaml")
 
-BENCHMARK_DIR = config["output_dir"]
-BENCHMARKS = [config["benchmarks"]]
-sample_path = os.path.join(BENCHMARK_DIR, BENCHMARKS[0], "*")
+BENCHMARK_DIR = config["outdir"]
+BASELINE_DIR = config["baseline_dir"]
+MODE = config["mode"]
+SAMPLES = config["samples"].keys()
 
-SAMPLES = glob.glob(sample_path)
-SAMPLES = [os.path.basename(s) for s in SAMPLES]
+BASELINE_DIR_MODE = os.path.join(BASELINE_DIR, MODE)
 
+OUTDIRS = [BENCHMARK_DIR, BASELINE_DIR_MODE]
+
+def benchmark_inputs():
+    inputs = []
+    for dir in OUTDIRS:
+        for sample in SAMPLES:
+            for benchmark in config["samples"][sample]["benchmarks"].keys():
+                inputs.append(os.path.join(dir, sample, benchmark, "MAGs", "done.txt"))
+    return inputs
 
 rule all:
     input:
-        expand(os.path.join(BENCHMARK_DIR, "{benchmark}", "{sample}", "MAGs", "done.txt"), sample=SAMPLES, benchmark=BENCHMARKS),
+        benchmark_inputs()
 
 
-def find_genomad(wildcards):
-    files = glob.glob(f'{os.path.join(config["data_dir"], wildcards.sample, "genomad")}/**/*_aggregated_classification.tsv', recursive=True)
-    # remove files that contain provirus
-    files = [f for f in files if "provirus" not in f]
-    return files
+nanomotif_config = {}
+nanomotif_config[BENCHMARK_DIR] = {
+    "mean_methylation_cutoff": f'--mean_methylation_cutoff {config["mean_methylation_cutoff"]}',
+    "n_motif_contig_cutoff": f'--n_motif_contig_cutoff {config["n_motif_contig_cutoff"]}',
+    "n_motif_bin_cutoff": f'--n_motif_bin_cutoff {config["n_motif_bin_cutoff"]}'    
+}
+nanomotif_config[BASELINE_DIR_MODE] = {
+    "mean_methylation_cutoff":  f'--mean_methylation_cutoff {0.25}',
+    "n_motif_contig_cutoff":  f'--n_motif_contig_cutoff {10}',
+    "n_motif_bin_cutoff": f'--n_motif_bin_cutoff {500}'
+}
 
 rule plot_MAGs:
     input:
-        motifs_scored = lambda wildcards: os.path.join(config["general_data_dir"], "Nanomotif", wildcards.sample, "motifs-scored.tsv"),
-        bin_motifs = lambda wildcards: os.path.join(config["general_data_dir"], "Nanomotif", wildcards.sample, "bin-motifs.tsv"),
-        checkm2 = lambda wildcards: os.path.join(BENCHMARK_DIR, wildcards.benchmark, wildcards.sample, "checkm2", "quality_report.tsv"),
-        assembly = lambda wildcards: config['samples'][wildcards.sample]['assembly'],
-        cov = lambda wildcards: os.path.join(config["general_data_dir"], "SemiBin2", wildcards.sample, "1_cov.bam_0_data_cov.csv"),
-        contig_bins = lambda wildcards: os.path.join(BENCHMARK_DIR, wildcards.benchmark, wildcards.sample, "contig_bins.tsv"),
-        genomad = find_genomad,
+        motifs_scored = os.path.join(config["baseline_dir"], "motif_discovery", "{sample}","original_contig_bin", "motifs-scored.tsv"),
+        bin_motifs = os.path.join(config["baseline_dir"], "motif_discovery", "{sample}","original_contig_bin", "bin-motifs.tsv"),
+        contig_bins = lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
+        contig_bins_truth = lambda wildcards: config["samples"][wildcards.sample]["benchmarks"]["original_contig_bin"],
+        bin_contamination = os.path.join("{dir}", "{sample}", "{benchmark}","bin_contamination.tsv"),
     output:
-        touch(os.path.join(BENCHMARK_DIR, "{benchmark}", "{sample}", "MAGs", "done.txt"))
+        touch(os.path.join("{dir}",  "{sample}", "{benchmark}", "MAGs", "done.txt"))
     threads:
-        3
+        1
     resources:
-        mem = "15G",
+        mem = "2G",
         walltime = "00:25:00",
-        nodetype = config["partition_general"],
+        nodetype = config["partition"],
     params:
         script = os.path.join(SNAKEDIR, "src","plot_MAGs.R"),
+        mean_methylation_cutoff = lambda wildcards: nanomotif_config[wildcards.dir]["mean_methylation_cutoff"], 
+        n_motif_contig_cutoff = lambda wildcards: nanomotif_config[wildcards.dir]["n_motif_contig_cutoff"], 
+        n_motif_bin_cutoff = lambda wildcards: nanomotif_config[wildcards.dir]["n_motif_bin_cutoff"],
     shell:
         """
         Rscript {params.script} --motifs_scored {input.motifs_scored} \
             --bin_motifs {input.bin_motifs} \
-            --checkm2 {input.checkm2} \
             --contig_bins {input.contig_bins} \
-            --assembly {input.assembly} \
-            --cov {input.cov} \
-            --genomad {input.genomad} \
-            --output {BENCHMARK_DIR}/{wildcards.benchmark}/{wildcards.sample}/MAGs  
+            --contig_bins_truth {input.contig_bins_truth} \
+            --bin_contamination {input.bin_contamination} \
+            {params.mean_methylation_cutoff} \
+            {params.n_motif_contig_cutoff} \
+            {params.n_motif_bin_cutoff} \
+            --output {wildcards.dir}/{wildcards.sample}/{wildcards.benchmark}/MAGs  
         """
