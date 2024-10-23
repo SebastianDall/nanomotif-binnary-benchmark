@@ -1,6 +1,7 @@
-outdir: output/benchmark/test
-baseline_dir: output/baseline
+outdir: output/benchmarks/detect_contamination/test
+baseline_dir: output/baseline/
 partition: general
+mode: detect_contamination
 
 
 # Settings for nanomotif_dev

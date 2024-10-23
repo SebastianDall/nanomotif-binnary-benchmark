@@ -18,7 +18,7 @@ def benchmark_inputs():
     for sample in config["samples"].keys():
         for benchmark in config["samples"][sample]["benchmarks"].keys():
             inputs.append(os.path.join(BASELINE, "detect_contamination", sample, benchmark, "bin_contamination.tsv"))
-            # inputs.append(os.path.join(OUTDIR, sample, benchmark, "bin_contamination.tsv"))
+            inputs.append(os.path.join(OUTDIR, sample, benchmark, "bin_contamination.tsv"))
     return inputs
 
 
@@ -62,17 +62,47 @@ rule nanomotif_motif_discovery:
             {input.a} {input.p} {input.bins}
         """
 
+rule copy_contig_bin_baseline:
+    input:
+        lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
+    output:
+        os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "contig_bin.tsv"),
+    threads:
+        1
+    resources:
+        mem = "1G",
+        walltime = "2:00",
+        nodetype = config["partition"],
+    shell:
+        "cp {input} {output}"
+
+rule copy_contig_bin_dev:
+    input:
+        lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
+    output:
+        os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
+    threads:
+        1
+    resources:
+        mem = "1G",
+        walltime = "2:00",
+        nodetype = config["partition"],
+    shell:
+        "cp {input} {output}"
+        
+
+
 rule nanomotif_contamination:
     conda:
         "envs/nanomotif.yaml"
     input:
         m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored.tsv"),
         b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
-        c = lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
+        c = os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "contig_bin.tsv"),
     output:
         os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "bin_contamination.tsv"),
     threads:
-        40
+        20
     resources:
         mem = "40G",
         walltime = "08:00:00",
@@ -91,13 +121,13 @@ rule nanomotif_contamination_dev:
     conda:
         "nanomotif_dev"
     input:
-        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "motifs-scored.tsv"),
-        b = os.path.join(BASELINE, "motif_discovery", "{sample}", "bin-motifs.tsv"),
-        c = lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
+        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored.tsv"),
+        b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
+        c = os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
     output:
         os.path.join(OUTDIR,"{sample}","{benchmark}",  "bin_contamination.tsv"),
     threads:
-        40
+        20
     resources:
         mem = "40G",
         walltime = "08:00:00",
