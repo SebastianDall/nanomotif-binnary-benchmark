@@ -1,0 +1,93 @@
+CVM07_Shewanella_oneidensis:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM07_Shewanella_oneidensis/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM07_Shewanella_oneidensis/mod.calls.fastq
+CVM10_Pseudomonas_alcaliphila:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM10_Pseudomonas_alcaliphila/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM10_Pseudomonas_alcaliphila/mod.calls.fastq
+CVM22_Bacillus_licheniformis:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM22_Bacillus_licheniformis/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM22_Bacillus_licheniformis/mod.calls.fastq
+CVM23_Alkalihalobacillus_clausii:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM23_Alkalihalobacillus_clausii/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM23_Alkalihalobacillus_clausii/mod.calls.fastq
+CVM24_Halomonas_elongata:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM24_Halomonas_elongata/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM24_Halomonas_elongata/mod.calls.fastq
+CVM26_Chromohalobacter_canadensis:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM26_Chromohalobacter_canadensis/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM26_Chromohalobacter_canadensis/mod.calls.fastq
+CVM27_Halomonas_neptunia:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM27_Halomonas_neptunia/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM27_Halomonas_neptunia/mod.calls.fastq
+CVM28_Exiguobacterium_aurantiacum:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM28_Exiguobacterium_aurantiacum/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM28_Exiguobacterium_aurantiacum/mod.calls.fastq
+CVM32_Halomonas_alkaliphila:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM32_Halomonas_alkaliphila/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM32_Halomonas_alkaliphila/mod.calls.fastq
+CVM38_Duganella_zoogloeoides:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM38_Duganella_zoogloeoides/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM38_Duganella_zoogloeoides/mod.calls.fastq
+CVM46_Guyparkeria_halophila:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM46_Guyparkeria_halophila/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM46_Guyparkeria_halophila/mod.calls.fastq
+CVM50_Cupriavidus_necator:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM50_Cupriavidus_necator/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM50_Cupriavidus_necator/mod.calls.fastq
+CVM58_Chitinophaga_sancti:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM58_Chitinophaga_sancti/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM58_Chitinophaga_sancti/mod.calls.fastq
+CVM59_Sphingomonas_echinoides:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM59_Sphingomonas_echinoides/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM59_Sphingomonas_echinoides/mod.calls.fastq
+CVM60_Rhodopseudomonas_palustris:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM60_Rhodopseudomonas_palustris/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM60_Rhodopseudomonas_palustris/mod.calls.fastq
+CVM62_Streptomyces_albidoflavus:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM62_Streptomyces_albidoflavus/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM62_Streptomyces_albidoflavus/mod.calls.fastq
+CVM64_Rhizobium_leguminosarum:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM64_Rhizobium_leguminosarum/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM64_Rhizobium_leguminosarum/mod.calls.fastq
+CVM65_Rubrobacter_radiotolerans:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM65_Rubrobacter_radiotolerans/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM65_Rubrobacter_radiotolerans/mod.calls.fastq
+CVM68_Rhodococcus_opacus:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM68_Rhodococcus_opacus/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM68_Rhodococcus_opacus/mod.calls.fastq
+CVM69_Comamonas_testosteroni:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM69_Comamonas_testosteroni/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM69_Comamonas_testosteroni/mod.calls.fastq
+CVM72_Zymomonas_mobilis:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM72_Zymomonas_mobilis/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM72_Zymomonas_mobilis/mod.calls.fastq
+CVM73_Kangiella_aquimarina:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM73_Kangiella_aquimarina/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM73_Kangiella_aquimarina/mod.calls.fastq
+CVM74_Cellulophaga_lytica:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM74_Cellulophaga_lytica/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM74_Cellulophaga_lytica/mod.calls.fastq
+CVM76_Acidithiobacillus_thiooxidans:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM76_Acidithiobacillus_thiooxidans/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM76_Acidithiobacillus_thiooxidans/mod.calls.fastq
+CVM77_Acidiphilium_acidophilum:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM77_Acidiphilium_acidophilum/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM77_Acidiphilium_acidophilum/mod.calls.fastq
+CVM81_Azospirillum_brasilense:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM81_Azospirillum_brasilense/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM81_Azospirillum_brasilense/mod.calls.fastq
+CVM82_Flavobacterium_johnsoniae:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/CVM82_Flavobacterium_johnsoniae/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/CVM82_Flavobacterium_johnsoniae/mod.calls.fastq
+ZymoHMW:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/ZymoHMW_v5.0.0/mmlong2_lite/tmp/eukfilt/asm_pol_lenfilt_eukfilt.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/ZymoHMW_v5.0.0/mod.calls.filt.fastq
+e_coli_k12:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/e_coli_k12/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/e_coli_k12/mod.calls.fastq
+m_ruber:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/m_ruber/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/m_ruber/mod.calls.filt.fastq
+p_thermoglucosidasius:
+  assembly: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/analysis/p_thermoglucosidasius/flye/assembly.fasta
+  fastq: /home/bio.aau.dk/lx38ll/dark-science/motif-identification/data/local/p_thermoglucosidasius/mod.calls.filt.fastq

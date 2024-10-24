@@ -1,0 +1,128 @@
+validation_outdir: data/validation_datasets
+outdir: "data/datasets"
+coverage_mapper: "/home/bio.aau.dk/lh14io/Projects/external_stay/methylation_binning/tools/coverage_mapper/target/release/coverage_mapper"
+min_l: 200
+min_q: 10
+coverage_threshold: 0.7
+dataset: 
+  simulated_3_lognormal:
+    rank_abundance_file: "_pipelines/validation_dataset/config/rank_abundance.csv"
+    ref: "data/datasets/simulated_3_lognormal/eukfilt_assembly.fasta"
+    samples: [
+        "CVM07_Shewanella_oneidensis",
+        "CVM10_Pseudomonas_alcaliphila",
+        "CVM22_Bacillus_licheniformis",
+        "CVM23_Alkalihalobacillus_clausii",
+        "CVM24_Halomonas_elongata",
+        "CVM26_Chromohalobacter_canadensis",
+        "CVM27_Halomonas_neptunia",
+        "CVM28_Exiguobacterium_aurantiacum",
+        "CVM32_Halomonas_alkaliphila",
+        "CVM38_Duganella_zoogloeoides",
+        "CVM46_Guyparkeria_halophila",
+        "CVM50_Cupriavidus_necator",
+        "CVM58_Chitinophaga_sancti",
+        "CVM59_Sphingomonas_echinoides",
+        "CVM60_Rhodopseudomonas_palustris",
+        "CVM62_Streptomyces_albidoflavus",
+        "CVM64_Rhizobium_leguminosarum",
+        "CVM65_Rubrobacter_radiotolerans",
+        "CVM68_Rhodococcus_opacus",
+        "CVM69_Comamonas_testosteroni",
+        "CVM72_Zymomonas_mobilis",
+        "CVM73_Kangiella_aquimarina",
+        "CVM74_Cellulophaga_lytica",
+        "CVM76_Acidithiobacillus_thiooxidans",
+        "CVM77_Acidiphilium_acidophilum",
+        "CVM81_Azospirillum_brasilense",
+        "CVM82_Flavobacterium_johnsoniae",
+        "ZymoHMW_c1_p.aeruginosa",
+        "ZymoHMW_c2_e.coli",
+        "ZymoHMW_c3_s.enterica",
+        "ZymoHMW_c4_b.spizinenii",
+        "ZymoHMW_c5_l.monocytogenes",
+        "ZymoHMW_c6_e.faecalis",
+        "ZymoHMW_c7_s.aureus",
+        "e_coli_k12",
+        "m_ruber",
+        "p_thermoglucosidasius"
+      ]
+samples:
+  CVM07_Shewanella_oneidensis:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM07_Shewanella_oneidensis/assembly.polished.fasta
+  CVM10_Pseudomonas_alcaliphila:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM10_Pseudomonas_alcaliphila/assembly.polished.fasta
+  CVM22_Bacillus_licheniformis:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM22_Bacillus_licheniformis/assembly.polished.fasta
+  CVM23_Alkalihalobacillus_clausii:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM23_Alkalihalobacillus_clausii/assembly.polished.fasta
+  CVM24_Halomonas_elongata:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM24_Halomonas_elongata/assembly.polished.fasta
+  CVM26_Chromohalobacter_canadensis:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM26_Chromohalobacter_canadensis/assembly.polished.fasta
+  CVM27_Halomonas_neptunia:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM27_Halomonas_neptunia/assembly.polished.fasta
+  CVM28_Exiguobacterium_aurantiacum:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM28_Exiguobacterium_aurantiacum/assembly.polished.fasta
+  CVM32_Halomonas_alkaliphila:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM32_Halomonas_alkaliphila/assembly.polished.fasta
+  CVM38_Duganella_zoogloeoides:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM38_Duganella_zoogloeoides/assembly.polished.fasta
+  CVM46_Guyparkeria_halophila:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM46_Guyparkeria_halophila/assembly.polished.fasta
+  CVM50_Cupriavidus_necator:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM50_Cupriavidus_necator/assembly.polished.fasta
+  CVM58_Chitinophaga_sancti:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM58_Chitinophaga_sancti/assembly.polished.fasta
+  CVM59_Sphingomonas_echinoides:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM59_Sphingomonas_echinoides/assembly.polished.fasta
+  CVM60_Rhodopseudomonas_palustris:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM60_Rhodopseudomonas_palustris/assembly.polished.fasta
+  CVM62_Streptomyces_albidoflavus:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM62_Streptomyces_albidoflavus/assembly.polished.fasta
+  CVM64_Rhizobium_leguminosarum:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM64_Rhizobium_leguminosarum/assembly.polished.fasta
+  CVM65_Rubrobacter_radiotolerans:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM65_Rubrobacter_radiotolerans/assembly.polished.fasta
+  CVM68_Rhodococcus_opacus:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM68_Rhodococcus_opacus/assembly.polished.fasta
+  CVM69_Comamonas_testosteroni:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM69_Comamonas_testosteroni/assembly.polished.fasta
+  CVM72_Zymomonas_mobilis:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM72_Zymomonas_mobilis/assembly.polished.fasta
+  CVM73_Kangiella_aquimarina:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM73_Kangiella_aquimarina/assembly.polished.fasta
+  CVM74_Cellulophaga_lytica:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM74_Cellulophaga_lytica/assembly.polished.fasta
+  CVM76_Acidithiobacillus_thiooxidans:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM76_Acidithiobacillus_thiooxidans/assembly.polished.fasta
+  CVM77_Acidiphilium_acidophilum:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM77_Acidiphilium_acidophilum/assembly.polished.fasta
+  CVM81_Azospirillum_brasilense:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM81_Azospirillum_brasilense/assembly.polished.fasta
+  CVM82_Flavobacterium_johnsoniae:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM82_Flavobacterium_johnsoniae/assembly.polished.fasta
+  e_coli_k12:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/e_coli_k12/assembly.polished.fasta
+  m_ruber:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/m_ruber/assembly.polished.fasta
+  p_thermoglucosidasius:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/p_thermoglucosidasius/assembly.polished.fasta
+  ZymoHMW_c1_p.aeruginosa:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c1.fa
+  ZymoHMW_c2_e.coli:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c2.fa
+  ZymoHMW_c3_s.enterica:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c3.fa
+  ZymoHMW_c4_b.spizinenii:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c4.fa
+  ZymoHMW_c5_l.monocytogenes:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c5.fa
+  ZymoHMW_c6_e.faecalis:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c6.fa
+  ZymoHMW_c7_s.aureus:
+    assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/mmlong2_lite/results/bins/bin.c7.fa
+  
+
+
+

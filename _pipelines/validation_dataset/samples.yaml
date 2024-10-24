@@ -1,0 +1,93 @@
+CVM07_Shewanella_oneidensis:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM07_Shewanella_oneidensiss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM07_Shewanella_oneidensis/assembly.polished.fasta
+CVM10_Pseudomonas_alcaliphila:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM10_Pseudomonas_alcaliphilas/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM10_Pseudomonas_alcaliphila/assembly.polished.fasta
+CVM22_Bacillus_licheniformis:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM22_Bacillus_licheniformiss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM22_Bacillus_licheniformis/assembly.polished.fasta
+CVM23_Alkalihalobacillus_clausii:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM23_Alkalihalobacillus_clausiis/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM23_Alkalihalobacillus_clausii/assembly.polished.fasta
+CVM24_Halomonas_elongata:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM24_Halomonas_elongatas/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM24_Halomonas_elongata/assembly.polished.fasta
+CVM26_Chromohalobacter_canadensis:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM26_Chromohalobacter_canadensiss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM26_Chromohalobacter_canadensis/assembly.polished.fasta
+CVM27_Halomonas_neptunia:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM27_Halomonas_neptunias/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM27_Halomonas_neptunia/assembly.polished.fasta
+CVM28_Exiguobacterium_aurantiacum:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM28_Exiguobacterium_aurantiacums/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM28_Exiguobacterium_aurantiacum/assembly.polished.fasta
+CVM32_Halomonas_alkaliphila:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM32_Halomonas_alkaliphilas/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM32_Halomonas_alkaliphila/assembly.polished.fasta
+CVM38_Duganella_zoogloeoides:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM38_Duganella_zoogloeoidess/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM38_Duganella_zoogloeoides/assembly.polished.fasta
+CVM46_Guyparkeria_halophila:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM46_Guyparkeria_halophilas/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM46_Guyparkeria_halophila/assembly.polished.fasta
+CVM50_Cupriavidus_necator:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM50_Cupriavidus_necators/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM50_Cupriavidus_necator/assembly.polished.fasta
+CVM58_Chitinophaga_sancti:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM58_Chitinophaga_sanctis/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM58_Chitinophaga_sancti/assembly.polished.fasta
+CVM59_Sphingomonas_echinoides:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM59_Sphingomonas_echinoidess/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM59_Sphingomonas_echinoides/assembly.polished.fasta
+CVM60_Rhodopseudomonas_palustris:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM60_Rhodopseudomonas_palustriss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM60_Rhodopseudomonas_palustris/assembly.polished.fasta
+CVM62_Streptomyces_albidoflavus:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM62_Streptomyces_albidoflavuss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM62_Streptomyces_albidoflavus/assembly.polished.fasta
+CVM64_Rhizobium_leguminosarum:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM64_Rhizobium_leguminosarums/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM64_Rhizobium_leguminosarum/assembly.polished.fasta
+CVM65_Rubrobacter_radiotolerans:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM65_Rubrobacter_radiotoleranss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM65_Rubrobacter_radiotolerans/assembly.polished.fasta
+CVM68_Rhodococcus_opacus:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM68_Rhodococcus_opacuss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM68_Rhodococcus_opacus/assembly.polished.fasta
+CVM69_Comamonas_testosteroni:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM69_Comamonas_testosteronis/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM69_Comamonas_testosteroni/assembly.polished.fasta
+CVM72_Zymomonas_mobilis:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM72_Zymomonas_mobiliss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM72_Zymomonas_mobilis/assembly.polished.fasta
+CVM73_Kangiella_aquimarina:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM73_Kangiella_aquimarinas/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM73_Kangiella_aquimarina/assembly.polished.fasta
+CVM74_Cellulophaga_lytica:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM74_Cellulophaga_lyticas/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM74_Cellulophaga_lytica/assembly.polished.fasta
+CVM76_Acidithiobacillus_thiooxidans:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM76_Acidithiobacillus_thiooxidanss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM76_Acidithiobacillus_thiooxidans/assembly.polished.fasta
+CVM77_Acidiphilium_acidophilum:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM77_Acidiphilium_acidophilums/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM77_Acidiphilium_acidophilum/assembly.polished.fasta
+CVM81_Azospirillum_brasilense:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM81_Azospirillum_brasilenses/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM81_Azospirillum_brasilense/assembly.polished.fasta
+CVM82_Flavobacterium_johnsoniae:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM82_Flavobacterium_johnsoniaes/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/CVM82_Flavobacterium_johnsoniae/assembly.polished.fasta
+e_coli_k12:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/e_coli_k12s/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/e_coli_k12/assembly.polished.fasta
+m_ruber:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/m_rubers/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/m_ruber/assembly.polished.fasta
+p_thermoglucosidasius:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/p_thermoglucosidasiuss/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/monocultures/p_thermoglucosidasius/assembly.polished.fasta
+ZymoHMW:
+  fastq: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMWs/mod.calls.fastq
+  assembly: /projects/dark_science/nanomotif/nanomotif_rebuttal/data/mock_communities/ZymoHMW/assembly.polished.fasta
