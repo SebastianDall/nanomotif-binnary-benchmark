@@ -18,17 +18,17 @@ parser$add_argument("--output", required = TRUE, help = "Path to the output file
 
 # Parse arguments
 args <- parser$parse_args()
-args <- list(
-    motifs_scored = "output/baseline/motif_discovery/simulated_3_lognormal/original_contig_bin/motifs-scored.tsv",
-    bin_motifs = "output/baseline/motif_discovery/simulated_3_lognormal/original_contig_bin/bin-motifs.tsv",
-    contig_bins = "files/benchmarks/benchmark_0_shuffle_1_contig.tsv", # "data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv",
-    contig_bins_truth = "data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv",
-    bin_contamination = "output/benchmarks/detect_contamination/test/simulated_3_lognormal/benchmark_0_shuffle_1_contig/bin_contamination.tsv",
-    mean_methylation_cutoff = 0.25,
-    n_motif_contig_cutoff = 10,
-    n_motif_bin_cutoff = 500,
-    output = "MAGs_warp"
-)
+# args <- list(
+#     motifs_scored = "output/baseline/motif_discovery/simulated_3_lognormal/original_contig_bin/motifs-scored.tsv",
+#     bin_motifs = "output/baseline/motif_discovery/simulated_3_lognormal/original_contig_bin/bin-motifs.tsv",
+#     contig_bins = "files/benchmarks/benchmark_0_shuffle_1_contig.tsv", # "data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv",
+#     contig_bins_truth = "data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv",
+#     bin_contamination = "output/benchmarks/detect_contamination/test/simulated_3_lognormal/benchmark_0_shuffle_1_contig/bin_contamination.tsv",
+#     mean_methylation_cutoff = 0.25,
+#     n_motif_contig_cutoff = 10,
+#     n_motif_bin_cutoff = 500,
+#     output = "MAGs_warp"
+# )
 
 # Load libraries
 if (!require("data.table")) install.packages("data.table")
@@ -123,9 +123,10 @@ for (BIN in motifs_scored$bin %>% unique()) {
         ) %>%
         arrange(desc(mean))
 
-    motifs_high <- motifs %>%
-        filter(mean > 0.15) %>%
-        pull(motif_mod)
+    motifs_high <- motifs_scored_for_plotting %>%
+        filter(bin == BIN, mean >= 0.25) %>%
+        pull(motif_mod) %>%
+        unique()
 
     motifs_low <- motifs %>%
         filter(mean < 0.15) %>%
