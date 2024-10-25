@@ -3,7 +3,7 @@ import glob
 
 
 SNAKEDIR = os.path.dirname(workflow.snakefile)
-configfile: os.path.join(SNAKEDIR, "..", "config", "config-subsample.yaml")
+configfile: os.path.join(SNAKEDIR, "..", "config", "config-mapping.yaml")
 
 OUTDIR = config["outdir"]
 SAMPLES = config["samples"]

@@ -23,8 +23,8 @@ print(list(DATASETS.keys()))
 rule all:
     input:
         define_subsamples(),
-        expand(os.path.join(OUTDIR, "{dataset}", "concatenated.fastq.gz"), dataset=DATASETS.keys()),
-        expand(os.path.join(OUTDIR, "{dataset}", "assembly.fasta"), dataset=DATASETS.keys()),
+        expand(os.path.join(OUTDIR, "{dataset}", "concatenated.fastq"), dataset=DATASETS.keys()),
+        expand(os.path.join(OUTDIR, "{dataset}","eukfilt_assembly.fasta"), dataset=DATASETS.keys()),
 
 
 num_reads_dict = {}
@@ -49,7 +49,7 @@ rule subsample_fastq:
     input:
         fq = lambda wildcards: SAMPLES[wildcards.sample]["fastq"]
     output:
-        os.path.join(VAL_OUTDIR,  "{dataset}", "{sample}_subsampled.fastq")
+        temp(os.path.join(VAL_OUTDIR,  "{dataset}", "{sample}_subsampled.fastq"))
     threads: 10
     resources:
         mem = "30G",
@@ -108,7 +108,7 @@ rule concatenate_fastq:
         nodetype = "general"
     shell:
         """
-        # Concatenate and gzip the fastq files
+        # Concatenate fastq files
         cat {input.fastqs} > {output}
         """
 
@@ -120,7 +120,6 @@ rule assembly:
     input:
         os.path.join(OUTDIR, "{dataset}", "concatenated.fastq")
     output:
-        # directory = 
         a = os.path.join(OUTDIR, "{dataset}", "assembly.fasta")
     threads: 40
     params:
@@ -135,22 +134,53 @@ rule assembly:
         --meta
         """
 
-
-
-rule minimap2:
-    conda:
-        "envs/mapreads.yaml"
-    input: 
-        ref = os.path.join(OUTDIR, "{dataset}", "assembly.fasta"),
-        query = os.path.join(VAL_OUTDIR, "renamed_assemblies", "{sample}.fasta")
+rule Eukaryote_process_contigs:
+    conda: "envs/eukfilt.yaml"
+    input:
+        input = os.path.join(OUTDIR, "{dataset}", "assembly.fasta")
     output:
-        "data/alignments/{dataset}/{sample}.sam"
-    threads: 20
+        output = os.path.join(OUTDIR, "{dataset}","eukfilt", "tiara")
+    params:
+        min_contig_length = 3000
+    threads: 40
     resources:
-        mem = "40",
+        mem = "40G",
+        nodetype = "general",
         walltime = "2-00:00:00",
-        nodetype = "general"
     shell:
         """
-        minimap2 -a {input.ref} {input.query} > {output}
+        tiara -i {input} -t {threads} -m {params.min_contig_length} -o {output}
         """
+
+rule Eukaryote_isolate_prokarya:
+    input:
+        input = os.path.join(OUTDIR, "{dataset}","eukfilt", "tiara")
+    output:
+        output = os.path.join(OUTDIR, "{dataset}","eukfilt", "contigs_filt.txt")
+    threads: 1
+    resources:
+        mem = "5G",
+        nodetype = "general",
+        walltime = "10:00",
+    shell:
+        """
+        cut -f1,2 {input} | grep -e "prokarya" -e "bacteria" -e "archaea" -e "unknown" - | cut -f1 | sort > {output}
+        """
+
+rule Eukaryote_remove_eukaryotes:
+    conda: "envs/eukfilt.yaml"
+    input:
+        txt = os.path.join(OUTDIR, "{dataset}","eukfilt", "contigs_filt.txt"),
+        assembly = os.path.join(OUTDIR, "{dataset}", "assembly.fasta")
+    output:
+        output = os.path.join(OUTDIR, "{dataset}","eukfilt_assembly.fasta")
+    threads: 1
+    resources:
+        mem = "25G",
+        nodetype = "general",
+        walltime = "1:00:00",
+    shell:
+        """
+        seqkit grep -f {input.txt} {input.assembly} > {output}
+        """
+

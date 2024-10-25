@@ -1,0 +1,7 @@
+name: tiara
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - tiara=1.0.3
+  - seqkit
