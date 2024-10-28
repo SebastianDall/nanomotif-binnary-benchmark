@@ -5,9 +5,51 @@ min_l: 200
 min_q: 10
 coverage_threshold: 0.7
 dataset: 
-  simulated_3_lognormal_20-100x:
-    rank_abundance_file: "_pipelines/validation_dataset/config/rank_abundance_20-100x.csv"
+  simulated_3_lognormal:
+    rank_abundance_file: "_pipelines/validation_dataset/config/rank_abundance.csv"
     ref: "data/datasets/simulated_3_lognormal/eukfilt_assembly.fasta"
+    samples: [
+        "CVM07_Shewanella_oneidensis",
+        "CVM10_Pseudomonas_alcaliphila",
+        "CVM22_Bacillus_licheniformis",
+        "CVM23_Alkalihalobacillus_clausii",
+        "CVM24_Halomonas_elongata",
+        "CVM26_Chromohalobacter_canadensis",
+        "CVM27_Halomonas_neptunia",
+        "CVM28_Exiguobacterium_aurantiacum",
+        "CVM32_Halomonas_alkaliphila",
+        "CVM38_Duganella_zoogloeoides",
+        "CVM46_Guyparkeria_halophila",
+        "CVM50_Cupriavidus_necator",
+        "CVM58_Chitinophaga_sancti",
+        "CVM59_Sphingomonas_echinoides",
+        "CVM60_Rhodopseudomonas_palustris",
+        "CVM62_Streptomyces_albidoflavus",
+        "CVM64_Rhizobium_leguminosarum",
+        "CVM65_Rubrobacter_radiotolerans",
+        "CVM68_Rhodococcus_opacus",
+        "CVM69_Comamonas_testosteroni",
+        "CVM72_Zymomonas_mobilis",
+        "CVM73_Kangiella_aquimarina",
+        "CVM74_Cellulophaga_lytica",
+        "CVM76_Acidithiobacillus_thiooxidans",
+        "CVM77_Acidiphilium_acidophilum",
+        "CVM81_Azospirillum_brasilense",
+        "CVM82_Flavobacterium_johnsoniae",
+        "ZymoHMW_c1_p.aeruginosa",
+        "ZymoHMW_c2_e.coli",
+        "ZymoHMW_c3_s.enterica",
+        "ZymoHMW_c4_b.spizinenii",
+        "ZymoHMW_c5_l.monocytogenes",
+        "ZymoHMW_c6_e.faecalis",
+        "ZymoHMW_c7_s.aureus",
+        "e_coli_k12",
+        "m_ruber",
+        "p_thermoglucosidasius"
+      ]
+  simulated_4_lognormal_20-100x:
+    rank_abundance_file: "_pipelines/validation_dataset/config/rank_abundance_20-100x.csv"
+    ref: "data/datasets/simulated_4_lognormal_20-100x/eukfilt_assembly.fasta"
     samples: [
         "CVM07_Shewanella_oneidensis",
         "CVM10_Pseudomonas_alcaliphila",

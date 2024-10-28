@@ -194,4 +194,4 @@ rule mapped_contig_bin:
         sorted_data = grouped_data.sort_values(by='bin')
 
         # Write the DataFrame to a TSV file
-        sorted_data.to_csv(output[0], sep='\t', index=False)
+        sorted_data.to_csv(output[0], sep='\t', index=False, header = False)

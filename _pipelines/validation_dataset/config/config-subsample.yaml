@@ -5,9 +5,9 @@ min_l: 200
 min_q: 10
 coverage_threshold: 0.7
 dataset: 
-  simulated_3_lognormal_20-100x:
+  simulated_4_lognormal_20-100x:
     rank_abundance_file: "_pipelines/validation_dataset/config/rank_abundance_20-100x.csv"
-    ref: "data/datasets/simulated_3_lognormal/eukfilt_assembly.fasta"
+    ref: "data/datasets/simulated_4_lognormal/eukfilt_assembly.fasta"
     samples: [
         "CVM07_Shewanella_oneidensis",
         "CVM10_Pseudomonas_alcaliphila",
