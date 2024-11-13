@@ -121,15 +121,16 @@ rule nanomotif_contamination_dev:
     conda:
         "nanomotif_dev"
     input:
-        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored.tsv"),
+        a = lambda wildcards: config["samples"][wildcards.sample]["assembly"],
+        p = lambda wildcards: config["samples"][wildcards.sample]["pileup"],
         b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
         c = os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
     output:
         os.path.join(OUTDIR,"{sample}","{benchmark}",  "bin_contamination.tsv"),
     threads:
-        20
+        40
     resources:
-        mem = "40G",
+        mem = "80G",
         walltime = "08:00:00",
         nodetype = config["partition"],
     params:
@@ -139,7 +140,9 @@ rule nanomotif_contamination_dev:
     shell:
         """
         nanomotif detect_contamination \
-            --motifs_scored {input.m} \
+            --threads {threads} \
+            --pileup {input.p} \
+            --assembly {input.a} \
             --bin_motifs {input.b} \
             --contig_bins {input.c} \
             --mean_methylation_cutoff {params.mean_methylation_cutoff} \
