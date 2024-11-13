@@ -2,12 +2,18 @@ library(tidyverse)
 
 
 # Load data
-contig_bin <- read_delim("data/datasets/simulated_3_lognormal/contig_bins.tsv", "\t")
-contig_mapping <- read_delim("data/datasets/simulated_3_lognormal/contig_mapping/coverage.csv", ",")
+contig_bin <- read_delim("data/datasets/simulated_4_lognormal_20-100x/contig_mapping/mapped_contig_bin.tsv", "\t", col_names = FALSE) %>%
+    rename(
+        contig = X1,
+        bin = X2
+    )
+contig_mapping <- read_delim("data/datasets/simulated_4_lognormal_20-100x/contig_mapping/coverage.csv", ",")
+
+motifs_scored <- read_delim("output/benchmarks/detect_contamination/2024-11-07_read-level/simulated_4_lognormal_20-100x/original_contig_bin/motifs-scored-read-methylation.tsv", "\t")
 
 # load assembly
 library(seqinr)
-assembly <- read.fasta(file = "data/datasets/simulated_3_lognormal/eukfilt_assembly.fasta", seqtype = "DNA")
+assembly <- read.fasta(file = "data/datasets/simulated_4_lognormal_20-100x/eukfilt_assembly.fasta", seqtype = "DNA")
 
 assembly_info <- data.frame(
     contig = names(assembly),
@@ -18,13 +24,25 @@ assembly_info <- data.frame(
         seqinr::GC(seq)
     })
 )
-
-cov <- read_delim("data/datasets/simulated_3_lognormal/1_cov.bam_0_data_cov.csv", ",") %>%
+rm(assembly)
+cov <- read_delim("data/datasets/simulated_4_lognormal_20-100x/1_cov.bam_0_data_cov.txt", "\t") %>%
     rename(
         contig = 1,
-        read_coverage_mean = 2,
-        read_coverage_var = 3
+        start = 2,
+        length = 3,
+        read_coverage_mean = 4
     )
+
+motifs_scored_f <- motifs_scored %>%
+    filter(N_motif_obs >= 10) %>%
+    left_join(contig_bin) %>%
+    left_join(assembly_info %>% select(contig, length)) %>%
+    mutate(
+        motif_mod = paste0(motif, "_", mod_type, "_", mod_position),
+        contig_l = paste0(contig, " - ", length)
+    ) %>%
+    filter(!is.na(bin))
+
 
 # join data
 
@@ -65,9 +83,6 @@ x <- contig_bin_mapping %>%
     filter(n_distinct(bin) > 1) %>%
     arrange(sample, bin)
 
-contig_bin_mapping %>%
-    filter(bin == 6)
-
 
 
 # GC / coverage plot
@@ -77,26 +92,60 @@ contig_bin_mapping %>%
     ggplot(aes(x = gc, y = read_coverage_mean, color = as.factor(sample), size = length)) +
     geom_point() +
     scale_y_log10() +
-    scale_color_discrete()
+    scale_color_discrete() +
+    theme_bw() +
+    theme(
+        legend.position = "none"
+    )
+
+ggsave("analysis/figures/simulated_4_lognormal_20-100x/gc_cov.png", width = 7, height = 7, create.dir = TRUE)
+
+
 
 # sample / coverage plot
+sample_mean_sorted <- contig_bin_mapping %>%
+    group_by(sample) %>%
+    summarise(
+        mean_coverage = mean(read_coverage_mean),
+    ) %>%
+    arrange(mean_coverage)
+
+
 contig_bin_mapping %>%
     distinct(contig, .keep_all = TRUE) %>%
     filter(!is.na(sample)) %>%
+    mutate(
+        sample = factor(sample, levels = sample_mean_sorted$sample)
+    ) %>%
     ggplot(aes(x = read_coverage_mean, y = sample, color = as.factor(sample), size = length)) +
     scale_x_log10() +
-    geom_point()
+    geom_point() +
+    theme_bw() +
+    theme(
+        legend.position = "none"
+    )
 
-contig_mapping <- read_delim("data/datasets/simulated_3_lognormal/contig_mapping/coverage.csv", ",")
+ggsave("analysis/figures/simulated_4_lognormal_20-100x/sample_coverage.png", width = 7, height = 10)
 
-mapped_contig_bin <- contig_mapping %>%
-    filter(coverage > 0.9) %>%
-    group_by(contig) %>%
-    filter(n() == 1) %>%
-    rename(
-        bin = sample
+
+motifs_scored_f %>%
+    distinct(contig, .keep_all = TRUE) %>%
+    group_by(bin) %>%
+    summarise(
+        bin_l = sum(length)
     ) %>%
-    select(-coverage) %>%
-    arrange(sample)
+    arrange(bin_l)
 
-write_delim(mapped_contig_bin, "data/datasets/simulated_3_lognormal/mapped_contig_bin.tsv", delim = "\t", col_names = FALSE)
+motifs_scored_f %>%
+    group_by(bin, motif_mod) %>%
+    summarise(
+        median = mean(median)
+    ) %>%
+    ggplot(aes(x = motif_mod, y = bin, fill = median)) +
+    geom_tile(color = "gray30") +
+    scale_fill_gradient2(low = "white", high = "blue") +
+    theme_minimal() +
+    theme(
+        axis.text.x = element_text(angle = 90, hjust = 1)
+    )
+ggsave("analysis/figures/simulated_4_lognormal_20-100x/methylation_pattern.png", width = 10, height = 10)
