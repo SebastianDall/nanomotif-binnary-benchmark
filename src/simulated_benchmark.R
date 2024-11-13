@@ -12,15 +12,14 @@ parser$add_argument("--samples", help = "Comma-separated list of samples. ['.' s
 parser$add_argument("--output", required = TRUE, help = "Path to the output folder")
 
 # Parse arguments
-args <- parser$parse_args()
 
 # Mock args
 args <- list(
     baselinedir = "output/baseline/detect_contamination/",
-    benchmarkdir = "output/benchmarks/test",
+    benchmarkdir = "output/benchmarks/detect_contamination/2024-11-07_read-level_minMeth0.5_n_motif_obs=8",
     benchmarks = ".",
     samples = ".",
-    output = "analysis/test"
+    output = "analysis/2024-11-07_read-level_simulated_4_lognormal_20-100x_minMeth0.5_n_motif_obs=8"
 )
 
 # Create output folder if not exists
@@ -37,6 +36,8 @@ if (!require("ggpubr")) install.packages("ggpubr")
 library(data.table)
 library(tidyverse)
 library(ggtext)
+library(janitor)
+library(ggpubr)
 
 custom_theme <- theme_bw() +
     theme(
@@ -88,7 +89,7 @@ df_benchmark <- crossing(
     mutate(
         mode = "developement benchmark",
         contig_bin = map2(sample, benchmark, ~ load_file(file.path(args$benchmarkdir, .x, .y, "contig_bin.tsv"), has_header = FALSE)),
-        bin_contamination = map2(sample, benchmark, ~ load_file(file.path(args$benchmarkdir, .x, .y, "bin_contamination.tsv"))),
+        bin_contamination = map2(sample, benchmark, ~ load_file(file.path(args$benchmarkdir, .x, .y, "bin_contamination.tsv")) %>% mutate(bin = as.character(bin))),
     )
 
 df_baseline <- crossing(
@@ -98,7 +99,7 @@ df_baseline <- crossing(
     mutate(
         mode = "nanomotif",
         contig_bin = map2(sample, benchmark, ~ load_file(file.path(args$baselinedir, .x, .y, "contig_bin.tsv"), has_header = FALSE)),
-        bin_contamination = map2(sample, benchmark, ~ load_file(file.path(args$baselinedir, .x, .y, "bin_contamination.tsv"))),
+        bin_contamination = map2(sample, benchmark, ~ load_file(file.path(args$baselinedir, .x, .y, "bin_contamination.tsv")) %>% mutate(bin = as.character(bin))),
     )
 
 df <- bind_rows(df_benchmark, df_baseline)
@@ -115,18 +116,31 @@ bin_truth <- df %>%
     ) %>%
     distinct()
 
+# Ecoli was not assembled well and ended up in two bins which in this case would be considered contamination if placed in each others bin.
 contig_bin <- df %>%
     select(sample, benchmark, mode, contig_bin) %>%
     unnest(contig_bin) %>%
     rename(
         contig = V1,
         bin = V2
-    )
+    ) %>%
+    filter(!str_detect(contig, "coli"))
 
 contamination <- df %>%
     select(sample, benchmark, mode, bin_contamination) %>%
+    mutate(
+        tib_len = map_int(bin_contamination, ~ nrow(.x))
+    ) %>%
+    filter(tib_len > 0) %>%
+    select(-tib_len) %>%
     unnest(bin_contamination) %>%
-    select(sample, benchmark, mode, contig, binary_methylation_missmatch_score, non_na_comparisons) %>%
+    mutate(
+        binary_methylation_mismatch_score = case_when(
+            is.na(binary_methylation_mismatch_score) ~ binary_methylation_missmatch_score,
+            TRUE ~ binary_methylation_mismatch_score
+        )
+    ) %>%
+    select(sample, benchmark, mode, contig, binary_methylation_mismatch_score, non_na_comparisons) %>%
     mutate(
         prediction = "contamination"
     )
@@ -151,11 +165,11 @@ d_combined <- contig_bin %>%
 # Plot distribution of mismatch score of contaminants
 d_combined %>%
     filter(prediction == "contamination") %>%
-    group_by(sample, benchmark, mode, binary_methylation_missmatch_score, measure) %>%
+    group_by(sample, benchmark, mode, binary_methylation_mismatch_score, measure) %>%
     summarise(
         count = n()
     ) %>%
-    ggplot(aes(x = as.factor(binary_methylation_missmatch_score), y = count, color = measure)) +
+    ggplot(aes(x = as.factor(binary_methylation_mismatch_score), y = count, color = measure)) +
     geom_boxplot(outlier.alpha = 0) +
     geom_point(position = position_jitterdodge(), alpha = 0.5) +
     facet_grid(. ~ mode) +
@@ -206,10 +220,12 @@ metrics <- confusion_df %>%
         accuracy = (true_positive + true_negative) / (true_positive + true_negative + false_positive + false_negative),
         sensitivity = true_positive / (true_positive + false_negative),
         specificity = true_negative / (true_negative + false_positive),
-        F1 = 2 * sensitivity * specificity / (sensitivity + specificity)
+        precision = true_positive / (true_positive + false_positive),
+        F1 = 2 * (precision * sensitivity) / (precision + sensitivity),
+        F0_5 = (1 + 0.5^2) * (precision * sensitivity) / (0.5^2 * precision + sensitivity)
     ) %>%
     pivot_longer(
-        cols = false_negative:F1,
+        cols = false_negative:F0_5,
         names_to = "metric",
         values_to = "value"
     )
@@ -226,11 +242,12 @@ metrics %>%
         y = "Value",
         fill = "Metric"
     )
+METRICS <- c("sensitivity", "specificity", "precision", "accuracy", "F1", "F0_5")
 
 m1 <- metrics %>%
-    filter(metric %in% c("sensitivity", "specificity", "accuracy", "F1")) %>%
+    filter(metric %in% METRICS) %>%
     mutate(
-        metric = factor(metric, levels = c("sensitivity", "specificity", "accuracy", "F1"))
+        metric = factor(metric, levels = METRICS)
     ) %>%
     ggplot(aes(x = metric, y = value, color = mode)) +
     geom_boxplot(outlier.alpha = 0) +
@@ -238,23 +255,25 @@ m1 <- metrics %>%
     facet_wrap(~sample, scales = "free") +
     # limit y axis
     scale_y_continuous(limits = c(0, 1)) +
+    scale_color_manual(values = c("nanomotif" = "#3ab7ff", "developement benchmark" = "#196900")) +
     custom_theme +
     labs(
         y = "Value"
     )
 
 m2 <- metrics %>%
-    filter(!metric %in% c("sensitivity", "specificity", "accuracy", "F1")) %>%
+    filter(!metric %in% METRICS) %>%
     ggplot(aes(x = metric, y = value, color = mode)) +
     geom_boxplot(outlier.alpha = 0) +
     geom_point(position = position_jitterdodge()) +
     facet_wrap(~sample, scales = "free") +
+    scale_color_manual(values = c("nanomotif" = "#3ab7ff", "developement benchmark" = "#196900")) +
     # limit y axis
     custom_theme +
     labs(
         y = "Count"
     )
 
-ggarrange(m1, m2, ncol = 2, nrow = 1, common.legend = TRUE)
+ggarrange(m1, m2, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
 
 ggsave(file.path(args$output, "metrics.png"), width = 10, height = 5)
