@@ -1,6 +1,6 @@
 outdir: output/benchmarks/simualted_4_lognormal
 baseline_dir: output/baseline/
-partition: general
+partition: default-op
 mode: detect_contamination
 
 
@@ -33,4 +33,9 @@ samples:
       benchmark_2_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_2_shuffle_1_contig.tsv
       benchmark_3_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_3_shuffle_1_contig.tsv
       benchmark_4_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_4_shuffle_1_contig.tsv
+      benchmark_5_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_5_shuffle_1_contig.tsv
+      benchmark_6_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_6_shuffle_1_contig.tsv
+      benchmark_7_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_7_shuffle_1_contig.tsv
+      benchmark_8_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_8_shuffle_1_contig.tsv
+      benchmark_9_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_9_shuffle_1_contig.tsv
 
