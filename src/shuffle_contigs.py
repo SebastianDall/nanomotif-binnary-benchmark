@@ -50,12 +50,12 @@ def write_contig_bin_file(bin_contigs, filename):
 
 if __name__ == '__main__':
     random.seed(42)
-    contig_bin = pd.read_csv("data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv", sep = "\t")
+    contig_bin = pd.read_csv("data/datasets/simulated_4_lognormal_20-100x/contig_mapping/mapped_contig_bin.tsv", sep = "\t", names=["contig", "bin"])
 
     contigs_in_bin = associate_bin_with_contigs(contig_bin)
 
-    for i in range(0,5):
+    for i in range(0,10):
         print(f"Shuffling benchmark {i}")
         shuffled_contigs = shuffle_contigs_between_bins(contigs_in_bin, 1)
         print(shuffled_contigs)
-        write_contig_bin_file(shuffled_contigs, f"files/benchmarks/benchmark_{i}_shuffle_1_contig.tsv")
+        write_contig_bin_file(shuffled_contigs, f"files/benchmarks/simulated_4_lognormal_20-100x/benchmark_{i}_shuffle_1_contig.tsv")
