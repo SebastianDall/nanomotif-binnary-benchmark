@@ -17,7 +17,7 @@ rule all:
             dataset=VALIDATION_DATASETS.keys()
         ),
         expand(
-            os.path.join(OUTDIR, "{dataset}", "1_cov.bam"),
+            os.path.join(OUTDIR, "{dataset}","1_cov.bam_0_data_cov.txt"),
             dataset=VALIDATION_DATASETS.keys()
         )
 
@@ -103,3 +103,40 @@ rule map_cov:
         samtools view -bS -F 2308 | \
         samtools sort > {output.bam}
         """
+
+rule coverage_contigs_bed:
+    conda:
+        "envs/mapreads.yaml"
+    input: 
+        bam = os.path.join(OUTDIR, "{dataset}", "1_cov.bam"),
+    output:
+        temp(os.path.join(OUTDIR, "{dataset}","contigs.bed"))
+    threads:
+        1
+    resources:
+        mem = "1G",
+        nodetype = "general",
+        walltime = "10:00",
+    shell:
+        """
+        samtools view -H {input} | grep "@SQ" | awk -F'\\t' '{{split($2,a,":"); split($3,b,":"); print a[2]"\\t0\\t"b[2]}}' > {output}
+        """
+        
+rule coverage_extract:
+    conda:
+        "envs/bedtools.yaml",
+    input:
+        contigs = os.path.join(OUTDIR, "{dataset}", "contigs.bed"),
+        bam = os.path.join(OUTDIR, "{dataset}", "1_cov.bam"),
+    output:
+        os.path.join(OUTDIR, "{dataset}","1_cov.bam_0_data_cov.txt"),
+    threads: 1
+    resources:
+        mem = "60G",
+        nodetype = "high-mem",
+        walltime = "9:00:00",
+    shell:
+        """
+        bedtools coverage -a {input.contigs} -b {input.bam} -mean > {output}
+        """
+
