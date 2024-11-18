@@ -10,32 +10,20 @@ n_motif_contig_cutoff: 10
 n_motif_bin_cutoff: 500
 
 samples:
-  # simulated_3_lognormal:
-  #   assembly:  data/datasets/simulated_3_lognormal/assembly.fasta
-  #   eukfilt_assembly: data/datasets/simulated_3_lognormal/eukfilt_assembly.fasta
-  #   pileup: data/datasets/simulated_3_lognormal/mod_pileup.bed
-  #   benchmarks:
-  #     original_contig_bin: data/datasets/simulated_3_lognormal/contig_mapping/mapped_contig_bin.tsv
-  #     benchmark_0_shuffle_1_contig: files/benchmarks/simulated_3_lognormal/benchmark_0_shuffle_1_contig.tsv
-  #     benchmark_1_shuffle_1_contig: files/benchmarks/simulated_3_lognormal/benchmark_1_shuffle_1_contig.tsv
-  #     benchmark_2_shuffle_1_contig: files/benchmarks/simulated_3_lognormal/benchmark_2_shuffle_1_contig.tsv
-      # benchmark_3_shuffle_1_contig: files/benchmarks/simulated_3_lognormal/benchmark_3_shuffle_1_contig.tsv
-      # benchmark_4_shuffle_1_contig: files/benchmarks/simulated_3_lognormal/benchmark_4_shuffle_1_contig.tsv
-
   simulated_4_lognormal_20-100x:
     assembly:  data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
     eukfilt_assembly: data/datasets/simulated_4_lognormal_20-100x/eukfilt_assembly.fasta
     pileup: data/datasets/simulated_4_lognormal_20-100x/mod_pileup.bed
     benchmarks:
       original_contig_bin: data/datasets/simulated_4_lognormal_20-100x/contig_mapping/mapped_contig_bin.tsv
-      benchmark_0_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_0_shuffle_1_contig.tsv
-      benchmark_1_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_1_shuffle_1_contig.tsv
-      benchmark_2_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_2_shuffle_1_contig.tsv
-      benchmark_3_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_3_shuffle_1_contig.tsv
-      benchmark_4_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_4_shuffle_1_contig.tsv
-      benchmark_5_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_5_shuffle_1_contig.tsv
-      benchmark_6_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_6_shuffle_1_contig.tsv
-      benchmark_7_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_7_shuffle_1_contig.tsv
-      benchmark_8_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_8_shuffle_1_contig.tsv
-      benchmark_9_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_9_shuffle_1_contig.tsv
+      benchmark_0_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_0_shuffle_1_contig_w_signal.tsv
+      benchmark_1_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_1_shuffle_1_contig_w_signal.tsv
+      benchmark_2_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_2_shuffle_1_contig_w_signal.tsv
+      benchmark_3_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_3_shuffle_1_contig_w_signal.tsv
+      benchmark_4_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_4_shuffle_1_contig_w_signal.tsv
+      benchmark_5_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_5_shuffle_1_contig_w_signal.tsv
+      benchmark_6_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_6_shuffle_1_contig_w_signal.tsv
+      benchmark_7_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_7_shuffle_1_contig_w_signal.tsv
+      benchmark_8_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_8_shuffle_1_contig_w_signal.tsv
+      benchmark_9_shuffle_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_9_shuffle_1_contig_w_signal.tsv
 
