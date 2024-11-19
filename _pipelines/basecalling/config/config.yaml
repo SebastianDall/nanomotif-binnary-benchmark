@@ -1,0 +1,3 @@
+gpu_config: "--gres=gpu:1"
+samples:
+  simple_fecal: "1k.pod5"
