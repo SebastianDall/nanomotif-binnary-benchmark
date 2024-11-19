@@ -47,7 +47,7 @@ def shuffle_contigs_between_bins(bin_contigs, num_contigs_to_shuffle):
                 break
             
             new_bin = random.choice(possible_bins_for_assignment)
-            bin_contigs[new_bin].append("contaminant_" + contig)
+            bin_contigs[new_bin].append("contamination_" + contig)
             bin_wo_contaminants.remove(new_bin)
 
     return bin_contigs
