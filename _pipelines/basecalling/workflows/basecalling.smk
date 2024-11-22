@@ -5,6 +5,9 @@ import datetime
 SNAKEDIR = os.path.dirname(workflow.snakefile)
 configfile: os.path.join(SNAKEDIR, "..", "config", "config.yaml")
 
+# pod5 view /projects/dark_science/datasets/v1.0.1/pod5/PaPr00000216MP.pod5 --ids --no-header --output all_ids.txt
+# head --lines 10000 all_ids.txt > 10k_ids.txt
+# pod5 filter /projects/dark_science/datasets/v1.0.1/pod5/PaPr00000216MP.pod5 --ids 10k_ids.txt --output 10k.pod5
 
 rule all:
   input:
@@ -32,7 +35,8 @@ rule basecall_pod5:
       """
         {params.DORADO} basecaller {params.MODEL} {input} \
           --no-trim \
-          --modified-bases-models {params.MOD_MODELS} \
+          --verbose \
           --kit-name {params.KIT} \
           --device cuda:0 > {output}
       """
+          # --modified-bases-models {params.MOD_MODELS} \
