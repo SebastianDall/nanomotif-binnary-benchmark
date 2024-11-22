@@ -8,6 +8,7 @@ mode: detect_contamination
 mean_methylation_cutoff: 0.25
 n_motif_contig_cutoff: 10
 n_motif_bin_cutoff: 500
+min_valid_read_cov: 3
 
 samples:
   simulated_4_lognormal_20-100x:

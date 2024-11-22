@@ -1,0 +1,28 @@
+outdir: output/benchmarks/simualted_4_lognormal
+baseline_dir: output/baseline/
+partition: general
+
+
+# Settings for nanomotif_dev
+mean_methylation_cutoff: 0.25
+n_motif_contig_cutoff: 10
+n_motif_bin_cutoff: 500
+
+samples:
+  simulated_4_lognormal_20-100x:
+    assembly:  data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
+    eukfilt_assembly: data/datasets/simulated_4_lognormal_20-100x/eukfilt_assembly.fasta
+    pileup: data/datasets/simulated_4_lognormal_20-100x/mod_pileup.bed
+    benchmarks:
+      original_contig_bin: data/datasets/simulated_4_lognormal_20-100x/contig_mapping/mapped_contig_bin.tsv
+      benchmark_0_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_0_remove_1_contig_w_signal.tsv
+      benchmark_1_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_1_remove_1_contig_w_signal.tsv
+      benchmark_2_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_2_remove_1_contig_w_signal.tsv
+      benchmark_3_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_3_remove_1_contig_w_signal.tsv
+      benchmark_4_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_4_remove_1_contig_w_signal.tsv
+      benchmark_5_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_5_remove_1_contig_w_signal.tsv
+      benchmark_6_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_6_remove_1_contig_w_signal.tsv
+      benchmark_7_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_7_remove_1_contig_w_signal.tsv
+      benchmark_8_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_8_remove_1_contig_w_signal.tsv
+      benchmark_9_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_9_remove_1_contig_w_signal.tsv
+

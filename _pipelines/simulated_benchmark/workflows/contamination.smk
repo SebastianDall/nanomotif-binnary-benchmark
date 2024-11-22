@@ -1,6 +1,7 @@
 import os
 import glob
 import datetime
+import polars as pl
 
 SNAKEDIR = os.path.dirname(workflow.snakefile)
 configfile: os.path.join(SNAKEDIR, "..", "config", "config-contamination.yaml")
@@ -60,13 +61,34 @@ rule copy_contig_bin_dev:
     shell:
         "cp {input} {output}"
         
+rule duplicate_motifs_scored:
+    input:
+        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored.tsv"),
+    output:
+        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored-w-contamination.tsv"),
+    threads:
+        1
+    resources:
+        mem = "4G",
+        walltime = "08:00",
+        nodetype = config["partition"],
+    run:
+        d = pl.read_csv(input[0], separator = "\t")
 
+        d_con = d.with_columns(
+            (pl.lit("contamination_") + pl.col("contig")).alias("contig")
+        )
+
+        d = pl.concat([d, d_con])
+        d.write_csv(output[0], separator = "\t")
+        
+    
 
 rule nanomotif_contamination:
     conda:
         "envs/nanomotif.yaml"
     input:
-        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored.tsv"),
+        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored-w-contamination.tsv"),
         b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
         c = os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "contig_bin.tsv"),
     output:
@@ -77,10 +99,10 @@ rule nanomotif_contamination:
         mem = "40G",
         walltime = "08:00:00",
         nodetype = config["partition"],
-    params:
     shell:
         """
         nanomotif detect_contamination \
+            --threads {threads} \
             --motifs_scored {input.m} \
             --bin_motifs {input.b} \
             --contig_bins {input.c} \
@@ -145,6 +167,34 @@ rule create_contamination_assembly:
 
         create_contamination_assembly(input[0], output[0])
 
+# rule create_motifs_scored_file:
+#     input:
+#         a = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_assembly.fasta"),
+#         p = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_pileup.bed"),
+#         b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
+#     output:
+#         m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config["min_valid_read_cov"]}.tsv")
+#     threads:
+#         40
+#     resources:
+#         mem = "140G",
+#         walltime = "08:00:00",
+#         nodetype = "high-mem",
+#     params:
+#         MU = os.path.join(SNAKEDIR, "src", "methylation_utils")
+#     run:
+#         from methylation_utils_wrapper.utils import run_methylation_utils
+
+#         motifs = pl.read_csv(input[2], separator = "\t")
+#         motifs = motifs\
+#             .with_columns((pl.col("motif") + "_" + pl.col("mod_type") + "_" + pl.col("mod_position").cast(pl.Utf8)).alias("motif_mod"))\
+#             .with_columns([
+#                 (pl.col("n_mod_bin") + pl.col("n_nomod_bin")).alias("n_motifs"),
+#                 (pl.col("n_mod_bin") / (pl.col("n_mod_bin") + pl.col("n_nomod_bin"))).alias("mean_methylation")
+#             ])\
+#             .filter()
+        
+
 rule nanomotif_contamination_dev:
     conda:
         "nanomotif_dev"
@@ -158,9 +208,9 @@ rule nanomotif_contamination_dev:
     threads:
         40
     resources:
-        mem = "100G",
+        mem = "20G",
         walltime = "08:00:00",
-        nodetype = config["partition"],
+        nodetype = "default-op",
     params:
         mean_methylation_cutoff = config["mean_methylation_cutoff"],
         n_motif_contig_cutoff = config["n_motif_contig_cutoff"],
