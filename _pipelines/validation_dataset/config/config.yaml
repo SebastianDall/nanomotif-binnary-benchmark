@@ -1,4 +1,7 @@
 validation_outdir: data/validation_datasets
+nodetype_high: high-mem
+nodetype_low: default-op
+mem_high: 100G
 outdir: "data/datasets"
 min_l: 200
 min_q: 10
@@ -9,3 +12,13 @@ validation_datasets:
   simulated_4_lognormal_20-100x:
     assembly: data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
     fastq: data/datasets/simulated_4_lognormal_20-100x/concatenated.fastq
+  fragmentation_benchmark_20kb:
+    assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    fastq: data/datasets/fragmentation_benchmark_20kb/concatenated_reads.fastq
+  fragmentation_benchmark_20kb_1800kb:
+    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    fastq: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_reads.fastq
+  fragmentation_benchmark_20kb_1800kb_combined:
+    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
+    fastq: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_reads.fastq
+    
