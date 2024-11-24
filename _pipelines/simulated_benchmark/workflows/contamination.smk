@@ -13,101 +13,27 @@ DATETIME = datetime.datetime.now().strftime('%Y%m%d_%H%M')
 BASELINE = config["baseline_dir"]
 OUTDIR = config["outdir"]
 
-include: "rules/motif_discovery.smk"
+# include: "rules/motif_discovery.smk"
 
 def benchmark_inputs():
     inputs = []
 
     for sample in config["samples"].keys():
         for benchmark in config["samples"][sample]["benchmarks"].keys():
-            inputs.append(os.path.join(BASELINE, "detect_contamination", sample, benchmark, "bin_contamination.tsv"))
             inputs.append(os.path.join(OUTDIR, sample, benchmark, "bin_contamination.tsv"))
     return inputs
 
 
 rule all:
     input:
-        benchmark_inputs(),
-        expand(os.path.join(BASELINE, "motif_discovery", "{sample}",  "original_contig_bin","motifs-scored.tsv"),
-               sample = config["samples"].keys()),
-       
-
-
-rule copy_contig_bin_baseline:
-    input:
-        lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
-    output:
-        os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "contig_bin.tsv"),
-    threads:
-        1
-    resources:
-        mem = "1G",
-        walltime = "2:00",
-        nodetype = config["partition"],
-    shell:
-        "cp {input} {output}"
-
-rule copy_contig_bin_dev:
-    input:
-        lambda wildcards: config["samples"][wildcards.sample]["benchmarks"][wildcards.benchmark],
-    output:
-        os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
-    threads:
-        1
-    resources:
-        mem = "1G",
-        walltime = "2:00",
-        nodetype = config["partition"],
-    shell:
-        "cp {input} {output}"
-        
-rule duplicate_motifs_scored:
-    input:
-        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored.tsv"),
-    output:
-        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored-w-contamination.tsv"),
-    threads:
-        1
-    resources:
-        mem = "4G",
-        walltime = "08:00",
-        nodetype = config["partition"],
-    run:
-        d = pl.read_csv(input[0], separator = "\t")
-
-        d_con = d.with_columns(
-            (pl.lit("contamination_") + pl.col("contig")).alias("contig")
+        expand(
+            os.path.join(OUTDIR, "{sample}", "benchmarks.done"),
+            sample=config["samples"].keys()
         )
-
-        d = pl.concat([d, d_con])
-        d.write_csv(output[0], separator = "\t")
         
-    
-
-rule nanomotif_contamination:
-    conda:
-        "envs/nanomotif.yaml"
-    input:
-        m = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "motifs-scored-w-contamination.tsv"),
-        b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
-        c = os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "contig_bin.tsv"),
-    output:
-        os.path.join(BASELINE, "detect_contamination", "{sample}", "{benchmark}", "bin_contamination.tsv"),
-    threads:
-        20
-    resources:
-        mem = "40G",
-        walltime = "08:00:00",
-        nodetype = config["partition"],
-    shell:
-        """
-        nanomotif detect_contamination \
-            --threads {threads} \
-            --motifs_scored {input.m} \
-            --bin_motifs {input.b} \
-            --contig_bins {input.c} \
-            --out {BASELINE}/detect_contamination/{wildcards.sample}/{wildcards.benchmark}         
-        """
+        # benchmark_inputs(),
+       
+        
 
 
 rule create_contamination_pileup:
@@ -118,7 +44,7 @@ rule create_contamination_pileup:
     threads:
         10
     resources:
-        mem = "65G",
+        mem = "140G",
         walltime = "01:00:00",
         nodetype = "high-mem",
     run:
@@ -131,7 +57,8 @@ rule create_contamination_pileup:
 
         p_con = pl.concat([pileup, con_pileup])
         p_con.write_csv(output[0], separator="\t", include_header = False)
-    
+
+
 
 rule create_contamination_assembly:
     input:
@@ -167,32 +94,105 @@ rule create_contamination_assembly:
 
         create_contamination_assembly(input[0], output[0])
 
-# rule create_motifs_scored_file:
-#     input:
-#         a = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_assembly.fasta"),
-#         p = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_pileup.bed"),
-#         b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
-#     output:
-#         m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config["min_valid_read_cov"]}.tsv")
-#     threads:
-#         40
-#     resources:
-#         mem = "140G",
-#         walltime = "08:00:00",
-#         nodetype = "high-mem",
-#     params:
-#         MU = os.path.join(SNAKEDIR, "src", "methylation_utils")
-#     run:
-#         from methylation_utils_wrapper.utils import run_methylation_utils
+rule create_motifs_scored_file:
+    input:
+        a = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_assembly.fasta"),
+        p = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_pileup.bed"),
+        b = lambda wildcards: config["samples"][wildcards.sample]["bin_motifs"],
+    output:
+        m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv")
+    threads:
+        40
+    resources:
+        mem = "200G",
+        walltime = "08:00:00",
+        nodetype = "high-mem",
+    params:
+        MU = os.path.join(SNAKEDIR, "src", "methylation_utils")
+    run:
+        from methylation_utils_wrapper.utils import run_methylation_utils
+        import sys
 
-#         motifs = pl.read_csv(input[2], separator = "\t")
-#         motifs = motifs\
-#             .with_columns((pl.col("motif") + "_" + pl.col("mod_type") + "_" + pl.col("mod_position").cast(pl.Utf8)).alias("motif_mod"))\
-#             .with_columns([
-#                 (pl.col("n_mod_bin") + pl.col("n_nomod_bin")).alias("n_motifs"),
-#                 (pl.col("n_mod_bin") / (pl.col("n_mod_bin") + pl.col("n_nomod_bin"))).alias("mean_methylation")
-#             ])\
-#             .filter()
+        motifs = pl.read_csv(input[2], separator = "\t")
+        motifs = motifs\
+            .with_columns((pl.col("motif") + "_" + pl.col("mod_type") + "_" + pl.col("mod_position").cast(pl.Utf8)).alias("motif_mod"))\
+            .with_columns([
+                (pl.col("n_mod_bin") + pl.col("n_nomod_bin")).alias("n_motifs"),
+                (pl.col("n_mod_bin") / (pl.col("n_mod_bin") + pl.col("n_nomod_bin"))).alias("mean_methylation")
+            ])\
+            .filter(pl.col("mean_methylation") >= config["mean_methylation_cutoff"])\
+            .filter(pl.col("n_motifs") >= config["n_motif_bin_cutoff"])\
+            .get_column("motif_mod").unique()
+
+        print("Running methylation_utils")
+        return_code = run_methylation_utils(
+            pileup = input[1],
+            assembly = input[0],
+            motifs = motifs,
+            threads = threads,
+            min_valid_read_coverage = config["min_valid_read_cov"],
+            output = output[0]
+        )
+
+        if return_code != 0:
+            sys.exit(1)
+
+rule symlink_motifs_scored_file:
+    input:
+        m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv")
+    output:
+        m = touch(os.path.join(OUTDIR,"{sample}","{benchmark}", "motifs-read-methylation-copied.done"))
+    threads:
+        1
+    resources:
+        mem = "4G",
+        walltime = "00:02:00",
+        nodetype = config["partition"],
+    shell:
+        """
+            ln -s "$(realpath {input.m})" {OUTDIR}/{wildcards.sample}/{wildcards.benchmark}/motifs-scored-read-methylation.tsv
+        """
+
+checkpoint create_benchmark_contig_bin_files:
+    conda: "nanomotif_dev"
+    input:
+        m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv"),
+        c = lambda wildcards: config["samples"][wildcards.sample]["contig_bin"]
+    output:
+        directory(os.path.join(BASELINE, "benchmark_files", "{sample}", "contamination"))
+    threads:
+        1
+    resources:
+        mem = "10G",
+        walltime = "00:15:00",
+        nodetype = config["partition"],
+    params:
+        PY = os.path.join(SNAKEDIR, "src", "shuffle_contigs.py"),
+        n_benchmarks = config["n_benchmarks"]
+    shell:
+        """
+            python {params.PY} {input.c} {input.m} {params.n_benchmarks} contamination {BASELINE}/"benchmark_files"/{wildcards.sample}/
+        """
+
+        
+
+    
+        
+rule symlink_contig_bin_dev:
+    input:
+        os.path.join(BASELINE, "benchmark_files", "{sample}", "contamination", "{benchmark}.tsv")
+    output:
+        os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
+    threads:
+        1
+    resources:
+        mem = "1G",
+        walltime = "2:00",
+        nodetype = config["partition"],
+    shell:
+        """
+        ln -s "$(realpath {input})" {output}
+        """
         
 
 rule nanomotif_contamination_dev:
@@ -203,10 +203,11 @@ rule nanomotif_contamination_dev:
         p = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_pileup.bed"),
         b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
         c = os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
+        m = os.path.join(OUTDIR,"{sample}","{benchmark}", "motifs-read-methylation-copied.done")
     output:
         os.path.join(OUTDIR,"{sample}","{benchmark}",  "bin_contamination.tsv"),
     threads:
-        40
+        10
     resources:
         mem = "20G",
         walltime = "08:00:00",
@@ -228,3 +229,23 @@ rule nanomotif_contamination_dev:
             --n_motif_bin_cutoff {params.n_motif_bin_cutoff} \
             --out {OUTDIR}/{wildcards.sample}/{wildcards.benchmark}/
         """
+
+def find_benchmarks(wildcards):
+    cp = checkpoints.create_benchmark_contig_bin_files.get(**wildcards).output[0]
+
+    return expand(
+        os.path.join(OUTDIR, "{sample}", "{benchmark}", "bin_contamination.tsv"),
+        sample = wildcards.sample, benchmark = glob_wildcards(os.path.join(cp, "{benchmark}.tsv")).benchmark
+    )
+
+rule aggregate_benchmarks:
+    input:
+        find_benchmarks
+    output:
+        touch(os.path.join(OUTDIR, "{sample}", "benchmarks.done"))
+    threads:
+        1
+    resources:
+        mem = "2G",
+        walltime = "00:02:00",
+        nodetype = "default-op",
