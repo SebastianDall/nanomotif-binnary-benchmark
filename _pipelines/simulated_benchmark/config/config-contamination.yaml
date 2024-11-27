@@ -6,10 +6,10 @@ n_benchmarks: 50
 
 
 # Settings for nanomotif_dev
-mean_methylation_cutoff: 0.25
-n_motif_contig_cutoff: 10
-n_motif_bin_cutoff: 500
-min_valid_read_cov: 3
+mean_methylation_cutoff: 0.5
+n_motif_contig_cutoff: 8
+n_motif_bin_cutoff: 400
+min_valid_read_cov: 1
 
 samples:
   # simulated_4_lognormal_20-100x:
