@@ -29,6 +29,10 @@ rule all:
         expand(
             os.path.join(OUTDIR, "{sample}", "benchmarks.done"),
             sample=config["samples"].keys()
+        ),
+        expand(
+            os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv"),
+            sample = config["samples"].keys()
         )
         
         # benchmark_inputs(),
@@ -102,7 +106,7 @@ rule create_motifs_scored_file:
     output:
         m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv")
     threads:
-        40
+        50
     resources:
         mem = "200G",
         walltime = "08:00:00",
@@ -110,7 +114,7 @@ rule create_motifs_scored_file:
     params:
         MU = os.path.join(SNAKEDIR, "src", "methylation_utils")
     run:
-        from methylation_utils_wrapper.utils import run_methylation_utils
+        from pymethylation_utils.utils import run_methylation_utils
         import sys
 
         motifs = pl.read_csv(input[2], separator = "\t")
@@ -171,7 +175,7 @@ checkpoint create_benchmark_contig_bin_files:
         n_benchmarks = config["n_benchmarks"]
     shell:
         """
-            python {params.PY} {input.c} {input.m} {params.n_benchmarks} contamination {BASELINE}/"benchmark_files"/{wildcards.sample}/
+            python {params.PY} {input.c} {input.m} {params.n_benchmarks} contamination {BASELINE}/benchmark_files/{wildcards.sample}/
         """
 
         
@@ -201,7 +205,7 @@ rule nanomotif_contamination_dev:
     input:
         a = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_assembly.fasta"),
         p = os.path.join(BASELINE, "contamination_files", "{sample}", "contamination_pileup.bed"),
-        b = os.path.join(BASELINE, "motif_discovery", "{sample}", "original_contig_bin", "bin-motifs.tsv"),
+        b = lambda wildcards: config["samples"][wildcards.sample]["bin_motifs"],
         c = os.path.join(OUTDIR,"{sample}","{benchmark}",  "contig_bin.tsv"),
         m = os.path.join(OUTDIR,"{sample}","{benchmark}", "motifs-read-methylation-copied.done")
     output:
