@@ -18,17 +18,34 @@ def associate_bin_with_contigs(contig_bin):
 def shuffle_contigs_between_bins(contig_bin, contigs_to_shuffle):
     new_contig_bin = copy.deepcopy(contig_bin)
     
+    print(contig_bin.keys())
     bins_wo_contaminants = list(contig_bin.keys())
 
     bins_where_contaminants_have_been_taken = set()
     contigs_used_as_contaminants = set()
     
+    i=0
+    n=1
     while bins_wo_contaminants:
+        if i == 50:
+            sys.exit(1)
         print("Remaining bins without contaminants: ", len(bins_wo_contaminants))
+        if len(bins_wo_contaminants) < 5:
+            print(bins_wo_contaminants)
+        print("bin where contamination has been taken")
+        print(bins_where_contaminants_have_been_taken)
 
         bins_availble_for_taking_contamination = [b for b in contigs_to_shuffle.keys() if b not in bins_where_contaminants_have_been_taken]
-        if not bins_availble_for_taking_contamination:
+        print("bins == bins available: ",bins_wo_contaminants == bins_availble_for_taking_contamination)
+        print("n = ", n)
+        if not bins_availble_for_taking_contamination or (bins_wo_contaminants == bins_availble_for_taking_contamination and n !=1 ):
+            print("all bins have had a contig taken as contaminant")
             bins_availble_for_taking_contamination = list(bins_where_contaminants_have_been_taken)
+
+        if len(bins_wo_contaminants) < 5:
+            print("Bins availble for taking contamination")
+            print(bins_availble_for_taking_contamination)
+        
 
         bin_to_take_from = random.choice(bins_availble_for_taking_contamination)
         contigs_available = contigs_to_shuffle[bin_to_take_from]
@@ -37,15 +54,24 @@ def shuffle_contigs_between_bins(contig_bin, contigs_to_shuffle):
             bins_where_contaminants_have_been_taken.add(bin_to_take_from)
             continue
 
+        
+        print("bins without contaminants: ", bins_wo_contaminants)
         contig_selected = random.choice(contigs_available)
         bin_to_assign_to = random.choice(bins_wo_contaminants)
 
+        assert contig_selected is not None, "contig selected is none"
+        assert bin_to_assign_to is not None, "Bin is None"
+        print("contig selected: ",contig_selected)
+        print("Bin to assign: ", bin_to_assign_to)
         if not contig_selected in contig_bin[bin_to_assign_to]:
             new_contig_bin[bin_to_assign_to].append("contamination_" + contig_selected)
             new_contig_bin[bin_to_take_from].remove(contig_selected)
             bins_wo_contaminants.remove(bin_to_assign_to)
             contigs_used_as_contaminants.add(contig_selected)
             bins_where_contaminants_have_been_taken.add(bin_to_take_from)
+            i = 0
+            n = 2
+        i+=1
 
     return new_contig_bin
 
@@ -112,7 +138,6 @@ if __name__ == '__main__':
     contigs_to_shuffle = contig_bin[contig_bin["contig"].isin(smaller_contigs_w_methylation)]
     contigs_to_shuffle = associate_bin_with_contigs(contigs_to_shuffle)
 
-    print(contigs_to_shuffle)
     contig_bin_dict = associate_bin_with_contigs(contig_bin)
 
     n_benchmarks = int(sys.argv[3])
