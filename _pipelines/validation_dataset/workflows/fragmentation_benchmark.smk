@@ -13,7 +13,6 @@ rule all:
   input:
     os.path.join(OUTDIR, "concatenated_assembly.fasta"),
     os.path.join(OUTDIR, "concatenated_reads.fastq"),
-    expand(os.path.join(OUTDIR, "contig_bin_{fragment_size}kb.tsv"),fragment_size = config["fragment_size"]),
     expand(
       os.path.join(OUTDIR, "subset_reads/{coverage}x/{sample}_{coverage}x.fastq"),
       coverage = config["coverage"],
@@ -130,18 +129,4 @@ rule subset_contig_bin:
       grep ">" {input} | sed 's/>//g' | awk '{{ print $1 "\t" "{wildcards.sample}" }}' > {output}
       """
 
-rule concat_contig_bins:
-  input:
-    expand(os.path.join(OUTDIR,"chunked_assembly/{fragment_size}kb/{sample}-{fragment_size}.tsv"), fragment_size = config["fragment_size"], sample = config["samples"].keys())
-  output:
-    os.path.join(OUTDIR, "contig_bin_{fragment_size}kb.tsv"),
-  threads: 1
-  resources:
-      mem = "5G",
-      walltime = "00:30:00",
-      nodetype = config["nodetype"]
-  shell:
-    """
-    cat {input} > {output}
-    """
-  
+      

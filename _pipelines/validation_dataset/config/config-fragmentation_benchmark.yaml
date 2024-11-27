@@ -8,10 +8,10 @@ samples:
     assembly: "data/monocultures/CVM07_Shewanella_oneidensis/assembly.polished.fasta"
     coverage: "data/monocultures/CVM07_Shewanella_oneidensis/genome_coverage.tsv"
     bam: "data/monocultures/CVM07_Shewanella_oneidensis/modcalls.aln.sorted.bam"
-  CVM10_Pseudomonas_alcaliphila:
-    assembly: "data/monocultures/CVM10_Pseudomonas_alcaliphila/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM10_Pseudomonas_alcaliphila/genome_coverage.tsv"
-    bam: "data/monocultures/CVM10_Pseudomonas_alcaliphila/modcalls.aln.sorted.bam"
+  # CVM10_Pseudomonas_alcaliphila:
+  #   assembly: "data/monocultures/CVM10_Pseudomonas_alcaliphila/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM10_Pseudomonas_alcaliphila/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM10_Pseudomonas_alcaliphila/modcalls.aln.sorted.bam"
   CVM22_Bacillus_licheniformis:
     assembly: "data/monocultures/CVM22_Bacillus_licheniformis/assembly.polished.fasta"
     coverage: "data/monocultures/CVM22_Bacillus_licheniformis/genome_coverage.tsv"
@@ -20,10 +20,10 @@ samples:
     assembly: "data/monocultures/CVM23_Alkalihalobacillus_clausii/assembly.polished.fasta"
     coverage: "data/monocultures/CVM23_Alkalihalobacillus_clausii/genome_coverage.tsv"
     bam: "data/monocultures/CVM23_Alkalihalobacillus_clausii/modcalls.aln.sorted.bam"
-  CVM24_Halomonas_elongata:
-    assembly: "data/monocultures/CVM24_Halomonas_elongata/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM24_Halomonas_elongata/genome_coverage.tsv"
-    bam: "data/monocultures/CVM24_Halomonas_elongata/modcalls.aln.sorted.bam"
+  # CVM24_Halomonas_elongata:
+  #   assembly: "data/monocultures/CVM24_Halomonas_elongata/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM24_Halomonas_elongata/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM24_Halomonas_elongata/modcalls.aln.sorted.bam"
   CVM26_Chromohalobacter_canadensis:
     assembly: "data/monocultures/CVM26_Chromohalobacter_canadensis/assembly.polished.fasta"
     coverage: "data/monocultures/CVM26_Chromohalobacter_canadensis/genome_coverage.tsv"
@@ -32,10 +32,10 @@ samples:
     assembly: "data/monocultures/CVM27_Halomonas_neptunia/assembly.polished.fasta"
     coverage: "data/monocultures/CVM27_Halomonas_neptunia/genome_coverage.tsv"
     bam: "data/monocultures/CVM27_Halomonas_neptunia/modcalls.aln.sorted.bam"
-  CVM28_Exiguobacterium_aurantiacum:
-    assembly: "data/monocultures/CVM28_Exiguobacterium_aurantiacum/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM28_Exiguobacterium_aurantiacum/genome_coverage.tsv"
-    bam: "data/monocultures/CVM28_Exiguobacterium_aurantiacum/modcalls.aln.sorted.bam"
+  # CVM28_Exiguobacterium_aurantiacum:
+  #   assembly: "data/monocultures/CVM28_Exiguobacterium_aurantiacum/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM28_Exiguobacterium_aurantiacum/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM28_Exiguobacterium_aurantiacum/modcalls.aln.sorted.bam"
   CVM32_Halomonas_alkaliphila:
     assembly: "data/monocultures/CVM32_Halomonas_alkaliphila/assembly.polished.fasta"
     coverage: "data/monocultures/CVM32_Halomonas_alkaliphila/genome_coverage.tsv"
@@ -44,18 +44,18 @@ samples:
     assembly: "data/monocultures/CVM38_Duganella_zoogloeoides/assembly.polished.fasta"
     coverage: "data/monocultures/CVM38_Duganella_zoogloeoides/genome_coverage.tsv"
     bam: "data/monocultures/CVM38_Duganella_zoogloeoides/modcalls.aln.sorted.bam"
-  CVM46_Guyparkeria_halophila:
-    assembly: "data/monocultures/CVM46_Guyparkeria_halophila/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM46_Guyparkeria_halophila/genome_coverage.tsv"
-    bam: "data/monocultures/CVM46_Guyparkeria_halophila/modcalls.aln.sorted.bam"
-  CVM50_Cupriavidus_necator:
-    assembly: "data/monocultures/CVM50_Cupriavidus_necator/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM50_Cupriavidus_necator/genome_coverage.tsv"
-    bam: "data/monocultures/CVM50_Cupriavidus_necator/modcalls.aln.sorted.bam"
-  CVM58_Chitinophaga_sancti:
-    assembly: "data/monocultures/CVM58_Chitinophaga_sancti/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM58_Chitinophaga_sancti/genome_coverage.tsv"
-    bam: "data/monocultures/CVM58_Chitinophaga_sancti/modcalls.aln.sorted.bam"
+  # CVM46_Guyparkeria_halophila:
+  #   assembly: "data/monocultures/CVM46_Guyparkeria_halophila/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM46_Guyparkeria_halophila/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM46_Guyparkeria_halophila/modcalls.aln.sorted.bam"
+  # CVM50_Cupriavidus_necator:
+  #   assembly: "data/monocultures/CVM50_Cupriavidus_necator/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM50_Cupriavidus_necator/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM50_Cupriavidus_necator/modcalls.aln.sorted.bam"
+  # CVM58_Chitinophaga_sancti:
+  #   assembly: "data/monocultures/CVM58_Chitinophaga_sancti/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM58_Chitinophaga_sancti/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM58_Chitinophaga_sancti/modcalls.aln.sorted.bam"
   CVM59_Sphingomonas_echinoides:
     assembly: "data/monocultures/CVM59_Sphingomonas_echinoides/assembly.polished.fasta"
     coverage: "data/monocultures/CVM59_Sphingomonas_echinoides/genome_coverage.tsv"
@@ -68,14 +68,14 @@ samples:
     assembly: "data/monocultures/CVM62_Streptomyces_albidoflavus/assembly.polished.fasta"
     coverage: "data/monocultures/CVM62_Streptomyces_albidoflavus/genome_coverage.tsv"
     bam: "data/monocultures/CVM62_Streptomyces_albidoflavus/modcalls.aln.sorted.bam"
-  CVM64_Rhizobium_leguminosarum:
-    assembly: "data/monocultures/CVM64_Rhizobium_leguminosarum/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM64_Rhizobium_leguminosarum/genome_coverage.tsv"
-    bam: "data/monocultures/CVM64_Rhizobium_leguminosarum/modcalls.aln.sorted.bam"
-  CVM65_Rubrobacter_radiotolerans:
-    assembly: "data/monocultures/CVM65_Rubrobacter_radiotolerans/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM65_Rubrobacter_radiotolerans/genome_coverage.tsv"
-    bam: "data/monocultures/CVM65_Rubrobacter_radiotolerans/modcalls.aln.sorted.bam"
+  # CVM64_Rhizobium_leguminosarum:
+  #   assembly: "data/monocultures/CVM64_Rhizobium_leguminosarum/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM64_Rhizobium_leguminosarum/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM64_Rhizobium_leguminosarum/modcalls.aln.sorted.bam"
+  # CVM65_Rubrobacter_radiotolerans:
+  #   assembly: "data/monocultures/CVM65_Rubrobacter_radiotolerans/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM65_Rubrobacter_radiotolerans/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM65_Rubrobacter_radiotolerans/modcalls.aln.sorted.bam"
   CVM68_Rhodococcus_opacus:
     assembly: "data/monocultures/CVM68_Rhodococcus_opacus/assembly.polished.fasta"
     coverage: "data/monocultures/CVM68_Rhodococcus_opacus/genome_coverage.tsv"
@@ -84,18 +84,18 @@ samples:
     assembly: "data/monocultures/CVM69_Comamonas_testosteroni/assembly.polished.fasta"
     coverage: "data/monocultures/CVM69_Comamonas_testosteroni/genome_coverage.tsv"
     bam: "data/monocultures/CVM69_Comamonas_testosteroni/modcalls.aln.sorted.bam"
-  CVM72_Zymomonas_mobilis:
-    assembly: "data/monocultures/CVM72_Zymomonas_mobilis/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM72_Zymomonas_mobilis/genome_coverage.tsv"
-    bam: "data/monocultures/CVM72_Zymomonas_mobilis/modcalls.aln.sorted.bam"
+  # CVM72_Zymomonas_mobilis:
+  #   assembly: "data/monocultures/CVM72_Zymomonas_mobilis/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM72_Zymomonas_mobilis/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM72_Zymomonas_mobilis/modcalls.aln.sorted.bam"
   CVM73_Kangiella_aquimarina:
     assembly: "data/monocultures/CVM73_Kangiella_aquimarina/assembly.polished.fasta"
     coverage: "data/monocultures/CVM73_Kangiella_aquimarina/genome_coverage.tsv"
     bam: "data/monocultures/CVM73_Kangiella_aquimarina/modcalls.aln.sorted.bam"
-  CVM74_Cellulophaga_lytica:
-    assembly: "data/monocultures/CVM74_Cellulophaga_lytica/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM74_Cellulophaga_lytica/genome_coverage.tsv"
-    bam: "data/monocultures/CVM74_Cellulophaga_lytica/modcalls.aln.sorted.bam"
+  # CVM74_Cellulophaga_lytica:
+  #   assembly: "data/monocultures/CVM74_Cellulophaga_lytica/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM74_Cellulophaga_lytica/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM74_Cellulophaga_lytica/modcalls.aln.sorted.bam"
   CVM76_Acidithiobacillus_thiooxidans:
     assembly: "data/monocultures/CVM76_Acidithiobacillus_thiooxidans/assembly.polished.fasta"
     coverage: "data/monocultures/CVM76_Acidithiobacillus_thiooxidans/genome_coverage.tsv"
@@ -108,10 +108,10 @@ samples:
     assembly: "data/monocultures/CVM81_Azospirillum_brasilense/assembly.polished.fasta"
     coverage: "data/monocultures/CVM81_Azospirillum_brasilense/genome_coverage.tsv"
     bam: "data/monocultures/CVM81_Azospirillum_brasilense/modcalls.aln.sorted.bam"
-  CVM82_Flavobacterium_johnsoniae:
-    assembly: "data/monocultures/CVM82_Flavobacterium_johnsoniae/assembly.polished.fasta"
-    coverage: "data/monocultures/CVM82_Flavobacterium_johnsoniae/genome_coverage.tsv"
-    bam: "data/monocultures/CVM82_Flavobacterium_johnsoniae/modcalls.aln.sorted.bam"
+  # CVM82_Flavobacterium_johnsoniae:
+  #   assembly: "data/monocultures/CVM82_Flavobacterium_johnsoniae/assembly.polished.fasta"
+  #   coverage: "data/monocultures/CVM82_Flavobacterium_johnsoniae/genome_coverage.tsv"
+  #   bam: "data/monocultures/CVM82_Flavobacterium_johnsoniae/modcalls.aln.sorted.bam"
   e_coli_k12:
     assembly: "data/monocultures/e_coli_k12/assembly.polished.fasta"
     coverage: "data/monocultures/e_coli_k12/genome_coverage.tsv"
@@ -136,10 +136,10 @@ samples:
     assembly: "data/monocultures/DSMZ13772-Salmonella_bongori/assembly.polished.fasta"
     coverage: "data/monocultures/DSMZ13772-Salmonella_bongori/genome_coverage.tsv"
     bam: "data/monocultures/DSMZ13772-Salmonella_bongori/modcalls.aln.sorted.bam"
-  DSMZ16553-Burkholderia_cenocepacia:
-    assembly: "data/monocultures/DSMZ16553-Burkholderia_cenocepacia/assembly.polished.fasta"
-    coverage: "data/monocultures/DSMZ16553-Burkholderia_cenocepacia/genome_coverage.tsv"
-    bam: "data/monocultures/DSMZ16553-Burkholderia_cenocepacia/modcalls.aln.sorted.bam"
+  # DSMZ16553-Burkholderia_cenocepacia:
+  #   assembly: "data/monocultures/DSMZ16553-Burkholderia_cenocepacia/assembly.polished.fasta"
+  #   coverage: "data/monocultures/DSMZ16553-Burkholderia_cenocepacia/genome_coverage.tsv"
+  #   bam: "data/monocultures/DSMZ16553-Burkholderia_cenocepacia/modcalls.aln.sorted.bam"
   DSMZ20745-Sphaerobacter_thermophilus:
     assembly: "data/monocultures/DSMZ20745-Sphaerobacter_thermophilus/assembly.polished.fasta"
     coverage: "data/monocultures/DSMZ20745-Sphaerobacter_thermophilus/genome_coverage.tsv"
