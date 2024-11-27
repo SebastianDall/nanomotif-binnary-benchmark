@@ -30,9 +30,9 @@ def main():
 
     # CVM28_Exiguobacterium_aurantiacum was not concatenated to a long contig so I will force this into the framented assembly
     # {'CVM28_Exiguobacterium_aurantiacum', 'CVM64_Rhizobium_leguminosarum', 'DSMZ16553-Burkholderia_cenocepacia', 'DSMZ2661-Methanocaldococcus_jannaschii'}
-    samples1.remove("CVM28_Exiguobacterium_aurantiacum")
-    samples1.remove("CVM64_Rhizobium_leguminosarum")
-    samples1.remove("DSMZ16553-Burkholderia_cenocepacia")
+    # samples1.remove("CVM28_Exiguobacterium_aurantiacum")
+    # samples1.remove("CVM64_Rhizobium_leguminosarum")
+    # samples1.remove("DSMZ16553-Burkholderia_cenocepacia")
     samples1.remove("DSMZ2661-Methanocaldococcus_jannaschii")
     print(len(samples2))
     selected_samples = random.sample(list(samples1), num_samples // 2)
