@@ -13,26 +13,46 @@ SAMPLES = config["samples"].keys()
 
 rule all:
   input:
-    os.path.join(OUTDIR, "concatenated_assembly.fasta")
+    os.path.join(OUTDIR, "concatenated_assembly.fasta"),
+    os.path.join(OUTDIR, "concatenated_coverage.txt")
 
 ################################################################################
 # Monoculture data subsetting
-# rule extract_reads:
-#   input:
-#     lambda wildcards: expand(config["samples"][wildcards.sample]["coverage"], sample = config["samples"].keys()),
-#   output:
-#     temp(os.path.join(OUTDIR, "fastq_files", "{sample}.fastq"))
-#   threads: 1
-#   resources:
-#       mem = "5G",
-#       walltime = "10:30:00",
-#       nodetype = config["nodetype"]
-#   shell:
-#     """
-#       samtools fastq -T MM,ML {input} > {output}
-#     """
+rule extract_cov:
+  conda: "envs/bedtools.yaml"
+  input:
+    lambda wildcards: config["samples"][wildcards.sample]["bam"]
+  output:
+    temp(os.path.join(OUTDIR, "coverage", "{sample}.txt"))
+  threads: 1
+  resources:
+      mem = "5G",
+      walltime = "10:30:00",
+      nodetype = config["nodetype"]
+  shell:
+    """
+      bedtools genomecov -bga -ibam {input} > {output}
+      sed 's/contig/{wildcards.sample}_contig/' {output} > {output}.tmp
+      mv {output}.tmp {output}
+
+    """
   
   
+rule concat_cov:
+  input:
+    expand(os.path.join(OUTDIR, "coverage", "{sample}.txt"),
+           sample = SAMPLES),
+  output: os.path.join(OUTDIR, "concatenated_coverage.txt")
+  threads: 1
+  resources:
+      mem = "5G",
+      walltime = "10:30:00",
+      nodetype = config["nodetype"]
+  shell:
+    """
+      cat {input} > {output}
+    """
+    
  
 # rule concatenate_reads:
 #   input:
