@@ -24,12 +24,12 @@ samples:
   #   contig_bin: "data/real_communities/fecal_inhouse/mmlong2_lite/tmp/binning/contig_bin.tsv"
   #   bin_motifs: "data/real_communities/fecal_inhouse/nanomotif_0.4.13/bin-motifs.tsv"
   #   mem: 350G
-  # fecal_simple:
-  #   assembly: "data/real_communities/fecal_simple/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
-  #   pileup: "data/real_communities/fecal_simple/modkit.pileup.mmlong2.bed"
-  #   contig_bin: "data/real_communities/fecal_simple/mmlong2_lite/tmp/binning/contig_bin.tsv"
-  #   bin_motifs: "data/real_communities/fecal_simple/nanomotif_0.4.13/bin-motifs.tsv"
-  #   mem: 80G
+  fecal_simple:
+    assembly: "data/real_communities/fecal_simple/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+    pileup: "data/datasets/fecal_simple/mod_pileup.bed"
+    contig_bin: "data/real_communities/fecal_simple/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/datasets/fecal_simple/motif_discovery/bin-motifs.tsv"
+    mem: 80G
   # mfd02199_backup:
   #   assembly: "data/real_communities/mfd02199_backup/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
   #   pileup: "data/real_communities/mfd02199_backup/modkit.pileup.mmlong2.bed"
