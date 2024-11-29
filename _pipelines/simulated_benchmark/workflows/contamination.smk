@@ -13,17 +13,6 @@ DATETIME = datetime.datetime.now().strftime('%Y%m%d_%H%M')
 BASELINE = config["baseline_dir"]
 OUTDIR = config["outdir"]
 
-# include: "rules/motif_discovery.smk"
-
-def benchmark_inputs():
-    inputs = []
-
-    for sample in config["samples"].keys():
-        for benchmark in config["samples"][sample]["benchmarks"].keys():
-            inputs.append(os.path.join(OUTDIR, sample, benchmark, "bin_contamination.tsv"))
-    return inputs
-
-
 rule all:
     input:
         expand(
@@ -120,12 +109,6 @@ rule create_motifs_scored_file:
         motifs = pl.read_csv(input[2], separator = "\t")
         motifs = motifs\
             .with_columns((pl.col("motif") + "_" + pl.col("mod_type") + "_" + pl.col("mod_position").cast(pl.Utf8)).alias("motif_mod"))\
-            .with_columns([
-                (pl.col("n_mod_bin") + pl.col("n_nomod_bin")).alias("n_motifs"),
-                (pl.col("n_mod_bin") / (pl.col("n_mod_bin") + pl.col("n_nomod_bin"))).alias("mean_methylation")
-            ])\
-            .filter(pl.col("mean_methylation") >= config["mean_methylation_cutoff"])\
-            .filter(pl.col("n_motifs") >= config["n_motif_bin_cutoff"])\
             .get_column("motif_mod").unique()
 
         print("Running methylation_utils")
@@ -216,10 +199,6 @@ rule nanomotif_contamination_dev:
         mem = "20G",
         walltime = "08:00:00",
         nodetype = "default-op",
-    params:
-        mean_methylation_cutoff = config["mean_methylation_cutoff"],
-        n_motif_contig_cutoff = config["n_motif_contig_cutoff"],
-        n_motif_bin_cutoff = config["n_motif_bin_cutoff"],
     shell:
         """
         nanomotif detect_contamination \
@@ -228,9 +207,6 @@ rule nanomotif_contamination_dev:
             --assembly {input.a} \
             --bin_motifs {input.b} \
             --contig_bins {input.c} \
-            --mean_methylation_cutoff {params.mean_methylation_cutoff} \
-            --n_motif_contig_cutoff {params.n_motif_contig_cutoff} \
-            --n_motif_bin_cutoff {params.n_motif_bin_cutoff} \
             --out {OUTDIR}/{wildcards.sample}/{wildcards.benchmark}/
         """
 
