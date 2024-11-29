@@ -1,28 +1,50 @@
-outdir: output/benchmarks/simualted_4_lognormal
+outdir: output/benchmarks/include_contigs
 baseline_dir: output/baseline/
-partition: general
+partition: default-op
+n_benchmarks: 50
 
 
 # Settings for nanomotif_dev
-mean_methylation_cutoff: 0.25
-n_motif_contig_cutoff: 10
-n_motif_bin_cutoff: 500
+mean_methylation_cutoff: 0.5
+n_motif_contig_cutoff: 8
+n_motif_bin_cutoff: 400
+min_valid_read_cov: 1
 
 samples:
-  simulated_4_lognormal_20-100x:
-    assembly:  data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
-    eukfilt_assembly: data/datasets/simulated_4_lognormal_20-100x/eukfilt_assembly.fasta
-    pileup: data/datasets/simulated_4_lognormal_20-100x/mod_pileup.bed
-    benchmarks:
-      original_contig_bin: data/datasets/simulated_4_lognormal_20-100x/contig_mapping/mapped_contig_bin.tsv
-      benchmark_0_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_0_remove_1_contig_w_signal.tsv
-      benchmark_1_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_1_remove_1_contig_w_signal.tsv
-      benchmark_2_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_2_remove_1_contig_w_signal.tsv
-      benchmark_3_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_3_remove_1_contig_w_signal.tsv
-      benchmark_4_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_4_remove_1_contig_w_signal.tsv
-      benchmark_5_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_5_remove_1_contig_w_signal.tsv
-      benchmark_6_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_6_remove_1_contig_w_signal.tsv
-      benchmark_7_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_7_remove_1_contig_w_signal.tsv
-      benchmark_8_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_8_remove_1_contig_w_signal.tsv
-      benchmark_9_remove_1_contig: files/benchmarks/simulated_4_lognormal_20-100x/benchmark_9_remove_1_contig_w_signal.tsv
+  # simulated_4_lognormal_20-100x:
+  #   assembly:  data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
+  #   eukfilt_assembly: data/datasets/simulated_4_lognormal_20-100x/eukfilt_assembly.fasta
+  #   pileup: data/datasets/simulated_4_lognormal_20-100x/mod_pileup.bed
+  #   bin_motifs: data/datasets/simulated_4_lognormal_20-100x/bin-motifs.tsv
+  #   contig_bin: data/datasets/simulated_4_lognormal_20-100x/contig_mapping/mapped_contig_bin.tsv
+  fragmentation_benchmark_20kb:
+    assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    pileup: data/datasets/fragmentation_benchmark_20kb/mod_pileup.bed
+    bin_motifs: data/datasets/fragmentation_benchmark_20kb/bin-motifs.tsv
+    contig_bin: data/datasets/fragmentation_benchmark_20kb/contig_bin.tsv
+  fragmentation_benchmark_20kb_1800kb:
+    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    pileup: data/datasets/fragmentation_benchmark_20kb_1800kb/mod_pileup.bed
+    bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb/bin-motifs.tsv
+    contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb/contig_bin.tsv
+  # fragmentation_benchmark_20kb_1800kb_combined:
+  #   assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
+  #   eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
+  #   pileup: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/mod_pileup.bed
+  #   bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/bin-motifs.tsv
+  #   contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/contig_bin.tsv
+  fragmentation_benchmark_20kb_w_motif_discovery:
+    assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    pileup: data/datasets/fragmentation_benchmark_20kb/mod_pileup.bed
+    bin_motifs: data/datasets/fragmentation_benchmark_20kb/motif_discovery/bin-motifs.tsv
+    contig_bin: data/datasets/fragmentation_benchmark_20kb/contig_bin.tsv
+  fragmentation_benchmark_20kb_1800kb_w_motif_discovery:
+    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    pileup: data/datasets/fragmentation_benchmark_20kb_1800kb/mod_pileup.bed
+    bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb/motif_discovery/bin-motifs.tsv
+    contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb/contig_bin.tsv
 

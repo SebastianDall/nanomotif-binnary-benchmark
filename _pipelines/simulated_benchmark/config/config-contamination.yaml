@@ -1,4 +1,4 @@
-outdir: output/benchmarks/
+outdir: output/benchmarks/detect_contamination
 baseline_dir: output/baseline/
 partition: default-op
 mode: detect_contamination
@@ -30,11 +30,23 @@ samples:
     pileup: data/datasets/fragmentation_benchmark_20kb_1800kb/mod_pileup.bed
     bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb/bin-motifs.tsv
     contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb/contig_bin.tsv
-  fragmentation_benchmark_20kb_1800kb_combined:
-    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
-    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
-    pileup: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/mod_pileup.bed
-    bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/bin-motifs.tsv
-    contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/contig_bin.tsv
+  # fragmentation_benchmark_20kb_1800kb_combined:
+  #   assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
+  #   eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
+  #   pileup: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/mod_pileup.bed
+  #   bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/bin-motifs.tsv
+  #   contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/contig_bin.tsv
+  fragmentation_benchmark_20kb_w_motif_discovery:
+    assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+    pileup: data/datasets/fragmentation_benchmark_20kb/mod_pileup.bed
+    bin_motifs: data/datasets/fragmentation_benchmark_20kb/motif_discovery/bin-motifs.tsv
+    contig_bin: data/datasets/fragmentation_benchmark_20kb/contig_bin.tsv
+  fragmentation_benchmark_20kb_1800kb_w_motif_discovery:
+    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    eukfilt_assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+    pileup: data/datasets/fragmentation_benchmark_20kb_1800kb/mod_pileup.bed
+    bin_motifs: data/datasets/fragmentation_benchmark_20kb_1800kb/motif_discovery/bin-motifs.tsv
+    contig_bin: data/datasets/fragmentation_benchmark_20kb_1800kb/contig_bin.tsv
 
 
