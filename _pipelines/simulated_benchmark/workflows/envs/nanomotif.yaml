@@ -6,4 +6,4 @@ dependencies:
   - python=3.9
   - pip
   - pip:
-      - nanomotif==0.4.13
+      - nanomotif==0.4.16
