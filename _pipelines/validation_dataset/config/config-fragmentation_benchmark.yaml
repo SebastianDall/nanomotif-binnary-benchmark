@@ -8,10 +8,10 @@ samples:
     assembly: "data/monocultures/CVM07_Shewanella_oneidensis/assembly.polished.fasta"
     coverage: "data/monocultures/CVM07_Shewanella_oneidensis/genome_coverage.tsv"
     bam: "data/monocultures/CVM07_Shewanella_oneidensis/modcalls.aln.sorted.bam"
-  # CVM10_Pseudomonas_alcaliphila:
-  #   assembly: "data/monocultures/CVM10_Pseudomonas_alcaliphila/assembly.polished.fasta"
-  #   coverage: "data/monocultures/CVM10_Pseudomonas_alcaliphila/genome_coverage.tsv"
-  #   bam: "data/monocultures/CVM10_Pseudomonas_alcaliphila/modcalls.aln.sorted.bam"
+  CVM10_Pseudomonas_alcaliphila:
+    assembly: "data/monocultures/CVM10_Pseudomonas_alcaliphila/assembly.polished.fasta"
+    coverage: "data/monocultures/CVM10_Pseudomonas_alcaliphila/genome_coverage.tsv"
+    bam: "data/monocultures/CVM10_Pseudomonas_alcaliphila/modcalls.aln.sorted.bam"
   CVM22_Bacillus_licheniformis:
     assembly: "data/monocultures/CVM22_Bacillus_licheniformis/assembly.polished.fasta"
     coverage: "data/monocultures/CVM22_Bacillus_licheniformis/genome_coverage.tsv"

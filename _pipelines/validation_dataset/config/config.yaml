@@ -6,19 +6,22 @@ outdir: "data/datasets"
 min_l: 200
 min_q: 10
 validation_datasets:
-  simulated_3_lognormal:
-    assembly: data/datasets/simulated_3_lognormal/assembly.fasta
-    fastq: data/datasets/simulated_3_lognormal/concatenated.fastq
-  simulated_4_lognormal_20-100x:
-    assembly: data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
-    fastq: data/datasets/simulated_4_lognormal_20-100x/concatenated.fastq
-  fragmentation_benchmark_20kb:
-    assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
-    fastq: data/datasets/fragmentation_benchmark_20kb/concatenated_reads.fastq
-  fragmentation_benchmark_20kb_1800kb:
-    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
-    fastq: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_reads.fastq
-  fragmentation_benchmark_20kb_1800kb_combined:
-    assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
-    fastq: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_reads.fastq
+  # simulated_3_lognormal:
+  #   assembly: data/datasets/simulated_3_lognormal/assembly.fasta
+  #   fastq: data/datasets/simulated_3_lognormal/concatenated.fastq
+  # simulated_4_lognormal_20-100x:
+  #   assembly: data/datasets/simulated_4_lognormal_20-100x/assembly.fasta
+  #   fastq: data/datasets/simulated_4_lognormal_20-100x/concatenated.fastq
+  # fragmentation_benchmark_20kb:
+  #   assembly: data/datasets/fragmentation_benchmark_20kb/concatenated_assembly.fasta
+  #   fastq: data/datasets/fragmentation_benchmark_20kb/concatenated_reads.fastq
+  # fragmentation_benchmark_20kb_1800kb:
+  #   assembly: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_assembly.fasta
+  #   fastq: data/datasets/fragmentation_benchmark_20kb_1800kb/concatenated_reads.fastq
+  # fragmentation_benchmark_20kb_1800kb_combined:
+  #   assembly: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_assembly.fasta
+  #   fastq: data/datasets/fragmentation_benchmark_20kb_1800kb_combined/concatenated_reads.fastq
+  fecal_simple:
+    assembly: data/real_communities/fecal_simple/mmlong2_lite/results/mmlong2_lite_assembly.fasta
+    fastq: data/datasets/fecal_simple/mod.calls.fastq
     

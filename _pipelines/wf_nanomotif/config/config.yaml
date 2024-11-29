@@ -1,0 +1,41 @@
+outdir: data/real_communities
+partition: default-op
+
+
+# Settings for nanomotif_dev
+min_valid_read_cov: 1
+
+samples:
+  ZymoFecal:
+    assembly: "data/real_communities/ZymoFecal/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+    pileup: "data/real_communities/ZymoFecal/modkit.pileup.mmlong2.bed"
+    contig_bin: "data/real_communities/ZymoFecal/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/real_communities/ZymoFecal/nanomotif_0.4.13/bin-motifs.tsv"
+    mem: 300G
+  # anaerobic_digester:
+  #   assembly: "data/real_communities/anaerobic_digester/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+  #   pileup: "data/real_communities/anaerobic_digester/modkit.pileup.mmlong2.bed"
+  #   contig_bin: "data/real_communities/anaerobic_digester/mmlong2_lite/tmp/binning/contig_bin.tsv"
+  #   bin_motifs: "data/real_communities/anaerobic_digester/nanomotif_0.4.13/bin-motifs.tsv"
+  #   mem: 650G
+  # fecal_inhouse:
+  #   assembly: "data/real_communities/fecal_inhouse/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+  #   pileup: "data/real_communities/fecal_inhouse/modkit.pileup.mmlong2.bed"
+  #   contig_bin: "data/real_communities/fecal_inhouse/mmlong2_lite/tmp/binning/contig_bin.tsv"
+  #   bin_motifs: "data/real_communities/fecal_inhouse/nanomotif_0.4.13/bin-motifs.tsv"
+  #   mem: 350G
+  # fecal_simple:
+  #   assembly: "data/real_communities/fecal_simple/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+  #   pileup: "data/real_communities/fecal_simple/modkit.pileup.mmlong2.bed"
+  #   contig_bin: "data/real_communities/fecal_simple/mmlong2_lite/tmp/binning/contig_bin.tsv"
+  #   bin_motifs: "data/real_communities/fecal_simple/nanomotif_0.4.13/bin-motifs.tsv"
+  #   mem: 80G
+  # mfd02199_backup:
+  #   assembly: "data/real_communities/mfd02199_backup/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+  #   pileup: "data/real_communities/mfd02199_backup/modkit.pileup.mmlong2.bed"
+  #   contig_bin: "data/real_communities/mfd02199_backup/mmlong2_lite/tmp/binning/contig_bin.tsv"
+  #   bin_motifs: "data/real_communities/mfd02199_backup/nanomotif_0.4.13/bin-motifs.tsv"
+  #   mem: 1500G
+
+
+
