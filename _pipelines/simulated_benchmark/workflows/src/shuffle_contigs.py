@@ -78,18 +78,15 @@ def shuffle_contigs_between_bins(contig_bin, contigs_to_shuffle):
 def remove_contigs_from_bin(bin_contigs, contigs_available_for_removal):
     contigs_to_remove = {}
 
-    available_bins =contigs_available_for_removal.keys()
-    for bin in available_bins:
-        contigs = contigs_available_for_removal[bin]
+    for bin, contigs in contigs_available_for_removal.items():
         if not contigs:
             continue
 
-        contigs_for_removal = random.choice(contigs)
+        chosen_contig = random.choice(contigs)
 
-        contigs_to_remove[bin] = contigs_for_removal
+        contigs_to_remove[bin] = chosen_contig
 
-        # remove contigs to be shuffled.
-        bin_contigs[bin] = [c for c in contigs if c not in contigs_for_removal]
+        bin_contigs[bin] = [c for c in bin_contigs[bin] if c != chosen_contig]
 
     return bin_contigs
 
@@ -112,7 +109,8 @@ if __name__ == '__main__':
 
     contigs = contig_bin.get_column("contig")
     contigs_w_methylation = contig_methylation\
-        .filter(pl.col("N_motif_obs") > 8)\
+        .filter(pl.col("mean_read_cov") > 2)\
+        .filter((pl.col("N_motif_obs") * pl.col("mean_read_cov")) >= 40)\
         .filter(pl.col("contig").is_in(contigs))
 
     bin_observations = contigs_w_methylation.join(contig_bin, how = "left", on = ["contig"])\
