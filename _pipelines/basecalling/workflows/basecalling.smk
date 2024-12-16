@@ -34,8 +34,6 @@ rule basecall_pod5:
     shell:
       """
         {params.DORADO} basecaller {params.MODEL} {input} \
-          --no-trim \
-          --verbose \
           --kit-name {params.KIT} \
           --device cuda:0 > {output}
       """
