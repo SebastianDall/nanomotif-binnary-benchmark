@@ -30,6 +30,7 @@ def parse_sliding_window(sliding_window):
     return int(start_str), int(end_str)
 
 def main():
+    num_windows = 80
     # Input and output file paths
     assembly_file = sys.argv[1]  # Path to your input assembly file
     output_file = sys.argv[2]    # Path to your desired output file
@@ -69,12 +70,12 @@ def main():
 
             used_slide_indices = set()
 
-            if not concatenated and num_slides >= 90:
+            if not concatenated and num_slides >= num_windows:
                 i = 0
-                while i <= num_slides - 90:
-                    # Check if the next 90 slides are in succession
+                while i <= num_slides - num_windows:
+                    # Check if the next num_windows slides are in succession
                     consecutive = True
-                    for j in range(i, i + 90 - 1):
+                    for j in range(i, i + num_windows - 1):
                         start1, end1 = parse_sliding_window(slides[j][0])
                         start2, end2 = parse_sliding_window(slides[j + 1][0])
 
@@ -84,13 +85,13 @@ def main():
                             break
 
                     if consecutive:
-                        # Concatenate the sequences of the 90 consecutive slides
-                        sequences = [slides[k][1].seq for k in range(i, i + 90)]
+                        # Concatenate the sequences of the num_windows consecutive slides
+                        sequences = [slides[k][1].seq for k in range(i, i + num_windows)]
                         concatenated_seq = ''.join(map(str, sequences))
 
                         # Create a new header for the concatenated sequence
                         start_position = parse_sliding_window(slides[i][0])[0]
-                        end_position = parse_sliding_window(slides[i + 89][0])[1]
+                        end_position = parse_sliding_window(slides[i + num_windows-1][0])[1]
 
                         new_header = f"{sample_name}_contig_{contig_id}_concatenated_{start_position}-{end_position}"
                         new_record = SeqIO.SeqRecord(
@@ -103,7 +104,7 @@ def main():
                         all_sequences_to_write.append(new_record)
 
                         # Mark these slides as used
-                        for k in range(i, i + 90):
+                        for k in range(i, i + num_windows):
                             used_slide_indices.add(k)
 
                         concatenated = True
