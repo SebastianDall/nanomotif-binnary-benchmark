@@ -37,7 +37,7 @@ rule map_mod_calls:
     resources:
         mem =config["mem_high"],
         nodetype=config["nodetype_high"],
-        walltime="2-00:00:00",
+        walltime="1-00:00:00",
     shell:
         """
         minimap2 -ax map-ont -t {threads} -I {params.mem} -K {params.ref} -y {input.assembly} {input.reads} | \
@@ -75,7 +75,7 @@ rule pileup:
     resources:
         mem = config["mem_high"],
         nodetype=config["nodetype_high"],
-        walltime="3-00:00:00",
+        walltime="1-00:00:00",
     shell:
         """
         modkit pileup -t {threads} --only-tabs {input.bam} {output.pileup} 
