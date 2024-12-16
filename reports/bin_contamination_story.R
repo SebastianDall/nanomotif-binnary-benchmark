@@ -2,13 +2,14 @@ library(tidyverse)
 library(data.table)
 library(seqinr)
 library(ggtext)
+source("src/colors.R")
 
 
-motifs_scored <- fread("data/real_communities/ZymoFecal/nanomotif_binnary/motifs-scored-read-methylation.tsv")
+motifs_scored <- fread("data/real_communities/anerobic_digester/nanomotif_binnary/motifs-scored-read-methylation.tsv")
 
-contamination <- fread("data/real_communities/ZymoFecal/nanomotif_binnary/bin_contamination.tsv")
+contamination <- fread("data/real_communities/anerobic_digester/nanomotif_binnary/bin_contamination.tsv")
 
-checkm <- fread("data/real_communities/ZymoFecal/mmlong2_lite/results/mmlong2_lite_bins.tsv") %>%
+checkm <- fread("data/real_communities/anerobic_digester/mmlong2_lite/results/mmlong2_lite_bins.tsv") %>%
     rename(
         bin = 1,
         checkm_comp = 2,
@@ -20,12 +21,12 @@ checkm <- fread("data/real_communities/ZymoFecal/mmlong2_lite/results/mmlong2_li
     ) %>%
     mutate(
         qc = case_when(
-            checkm_comp >= 90 & checkm_cont <= 5 ~ "HQ",
-            checkm_comp >= 50 & checkm_cont <= 10 ~ "MQ",
+            checkm_comp >= 90 & checkm_cont < 5 ~ "HQ",
+            checkm_comp >= 50 & checkm_cont < 10 ~ "MQ",
             TRUE ~ "Low"
         )
     )
-# assembly <- read.fasta("data/real_communities/ZymoFecal/mmlong2_lite/results/mmlong2_lite_assembly.fasta", seqtype = "DNA")
+# assembly <- read.fasta("data/real_communities/anaerobic_digester/mmlong2_lite/results/mmlong2_lite_assembly.fasta", seqtype = "DNA")
 
 # assembly_info <- data.frame(
 #     contig = names(assembly),
@@ -39,10 +40,18 @@ checkm <- fread("data/real_communities/ZymoFecal/mmlong2_lite/results/mmlong2_li
 # rm(assembly)
 
 # assembly_info <- assembly_info %>% as_tibble()
-# write_delim(assembly_info, "reports/ZymoFecal_assembly_info.txt", delim = "\t")
-assembly_info <- fread("reports/ZymoFecal_assembly_info.txt")
+# write_delim(assembly_info, "reports/anaerobic_digester_assembly_info.txt", delim = "\t")
+assembly_info <- fread("reports/anaerobic_digester_assembly_info.txt")
 
-cov <- fread("data/real_communities/ZymoFecal/mmlong2_lite/tmp/binning/mapping/cov_all.tsv") %>%
+# assembly_info <- fread("data/real_communities/mfd02199_backup/mmlong2_lite/tmp/flye/assembly_info.txt") %>%
+#     rename(
+#         contig = 1,
+#         length = 2,
+#         cov = 3
+#     )
+
+
+cov <- fread("data/real_communities/anaerobic_digester/mmlong2_lite/tmp/binning/mapping/cov_all.tsv") %>% # "data/real_communities/mfd02199_backup/mmlong2_lite/tmp/binning/cov_tmp/1_cov.tsv"
     rename(
         contig = 1,
         length = 2,
@@ -50,7 +59,7 @@ cov <- fread("data/real_communities/ZymoFecal/mmlong2_lite/tmp/binning/mapping/c
     ) %>%
     select(contig, length, read_coverage_mean)
 
-contig_bin <- fread("data/real_communities/ZymoFecal/mmlong2_lite/tmp/binning/contig_bin.tsv", header = FALSE) %>%
+contig_bin <- fread("data/real_communities/anaerobic_digester/mmlong2_lite/tmp/binning/contig_bin.tsv", header = FALSE) %>%
     rename(
         contig = V1,
         bin = V2
@@ -70,14 +79,9 @@ gc_coverage <- cov %>%
     left_join(contig_bin, by = "contig")
 
 
-MOD_TYPE_PRETTY <- c(
-    a = "m6",
-    m = "m5",
-    `21839` = "m4"
-)
 
 motifs_scored_f <- motifs_scored %>%
-    filter(N_motif_obs * mean_read_cov >= 17) %>%
+    filter(N_motif_obs * mean_read_cov >= 24) %>%
     left_join(contig_bin, by = "contig") %>%
     left_join(assembly_info, by = "contig") %>%
     mutate(
@@ -85,7 +89,7 @@ motifs_scored_f <- motifs_scored %>%
         contamination = ifelse(is.na(contamination), FALSE, contamination)
     ) %>%
     mutate(
-        contig_label = paste0(contig, " - ", length),
+        contig_label = paste0(contig, " - ", round(length / 1000, 0), " kbp"),
         contig_label = case_when(
             contamination ~ paste0("<span style='color:red'><strong>", contig_label, "</stron></span>"),
             TRUE ~ contig_label
@@ -160,7 +164,6 @@ plot_motifs <- function(motifs_scored_f, bin2see, sample_motifs = TRUE) {
         mutate(
             ns = str_extract(motif, "NNN*"),
             ns = str_length(ns),
-            motif = str_replace(motif, "NNN*", paste0("(N)<sub>", ns, "</sub>")),
             motif_axis = paste0(
                 str_sub(motif, 1, mod_position),
                 "<strong>",
@@ -170,12 +173,20 @@ plot_motifs <- function(motifs_scored_f, bin2see, sample_motifs = TRUE) {
                 "</sup>",
                 "</strong>",
                 str_sub(motif, mod_position + 2, -1)
-            )
+            ),
+            motif_axis = str_replace(motif_axis, "NNN*", paste0("(N)<sub>", ns, "</sub>"))
         ) %>%
         ggplot(aes(x = motif_axis, y = contig_label, fill = median, label = txt)) +
         geom_tile(color = "gray60", ) +
         geom_text(aes(label = txt), size = 15) +
-        scale_fill_gradient(low = "white", high = "blue", limits = c(0, 1)) +
+        geom_text(aes(color = "No motif observations"), label = "", alpha = 1) +
+        scale_fill_gradientn(
+            labels = scales::percent,
+            limits = c(0, 1),
+            colours = c("white", PLOT_COLORS[[4]], PLOT_COLORS[[5]]), na.value = "white",
+            values = c(0, 0.5, 1),
+            name = "Methylation\nlevel"
+        ) +
         labs(
             x = "",
             y = "",
@@ -186,6 +197,9 @@ plot_motifs <- function(motifs_scored_f, bin2see, sample_motifs = TRUE) {
         theme(
             axis.text.x = element_markdown(angle = 90, hjust = 1, vjust = 0.5),
             axis.text.y = element_markdown()
+        ) +
+        guides(
+            color = guide_legend(override.aes = list(alpha = 1, fill = c("black"), color = "black", label = c("\u00B7"), size = c(10)), direction = "vertical", order = 5, position = "bottom", title = NULL)
         )
 }
 
@@ -216,7 +230,7 @@ plot_gc_coverage <- function(gc_coverage, bin2see) {
         theme_minimal()
 }
 
-plot_motifs(motifs_scored_f, "bin.2.129")
+plot_motifs(motifs_scored_f, "bin.1.166")
 plot_gc_coverage(gc_coverage, "bin.2.129")
 
 for (BIN in contaminated_bins) {
@@ -231,17 +245,47 @@ for (BIN in contaminated_bins) {
     ggsave(paste0("analysis/contamination_story/all_bins/", mag_qual, "_", BIN, "_gc_coverage.png"), width = 10, height = 10, dpi = 300)
 }
 
+# motifs <- c(
+#     "AACCNNNNNCTC_a_1",
+#     "AAAANGC_a_3",
+#     "CCWGG_21839_1",
+#     "CCAGG_m_1",
+#     "CTCGAG_a_4",
+#     "GAGNNNNNGGTY_a_1"
+# )
 motifs <- c(
-    "AACCNNNNNCTC_a_1",
-    "AAAANGC_a_3",
-    "CCWGG_21839_1",
-    "CCAGG_m_1",
+    "AATT_a_1",
     "CTCGAG_a_4",
-    "GAGNNNNNGGTY_a_1"
+    "GGGCC_m_3",
+    "CGGCAG_a_4",
+    "CACAT_a_2",
+    "GCCGGC_m_5"
 )
-plot_motifs(motifs_scored_f %>% filter(motif_mod %in% motifs), "bin.1.13", sample_motifs = FALSE) +
+bin2see <- "bin.1.59"
+binstats <- checkm %>% filter(bin == bin2see)
+
+plot_motifs(motifs_scored_f %>% filter(motif_mod %in% motifs), bin2see, sample_motifs = FALSE) +
     labs(
-        title = "ZymoFecal",
-        subtitle = "HQ bin.1.13 - Comp. 98.62 - Cont 2.02"
+        title = "Anaerobic digester",
+        subtitle = paste0(binstats$qc, " ", bin2see, " - Comp. ", binstats$checkm_comp, " - Cont. ", binstats$checkm_cont)
     )
-ggsave("analysis/contamination_story/motifs_selected.png", width = 5, height = 5, dpi = 300)
+ggsave("analysis/contamination_story/AD_bin1.59.png", width = 5, height = 5, dpi = 300)
+
+
+motifs <- c(
+    "CAAAAA_a_5",
+    "CACAC_a_3",
+    "GCWGC_m_1",
+    "TCTG_m_1",
+    "GATC_a_1",
+    "GATC_m_3"
+)
+bin2see <- "bin.1.169"
+binstats <- checkm %>% filter(bin == bin2see)
+
+plot_motifs(motifs_scored_f %>% filter(motif_mod %in% motifs), bin2see, sample_motifs = FALSE) +
+    labs(
+        title = "Anaerobic digester",
+        subtitle = paste0(binstats$qc, " ", bin2see, " - Comp. ", binstats$checkm_comp, " - Cont. ", binstats$checkm_cont)
+    )
+ggsave("analysis/contamination_story/AD_bin1.169.png", width = 5, height = 5, dpi = 300)
