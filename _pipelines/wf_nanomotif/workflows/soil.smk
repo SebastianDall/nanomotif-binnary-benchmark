@@ -4,7 +4,7 @@ import datetime
 import polars as pl
 
 SNAKEDIR = os.path.dirname(workflow.snakefile)
-configfile: os.path.join(SNAKEDIR, "..", "config", "config.yaml")
+configfile: os.path.join(SNAKEDIR, "..", "config", "config-soil.yaml")
 
 
 # Extract sample names from the YAML configuration
@@ -33,7 +33,7 @@ rule all:
 
 def threads(num):
     threads_from_gb = int(num.replace("G","")) // 10
-    return min(max(40, threads_from_gb), 70)        
+    return min(max(40, threads_from_gb), 90)        
 
 
 rule create_motifs_scored_file:
