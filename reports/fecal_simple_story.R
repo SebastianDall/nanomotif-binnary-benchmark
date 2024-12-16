@@ -2,7 +2,7 @@ library(tidyverse)
 library(data.table)
 library(seqinr)
 library(ggtext)
-
+source("src/colors.R")
 
 motifs_scored <- fread("data/real_communities/fecal_simple_recovered/nanomotif_binnary/motifs-scored-read-methylation.tsv")
 
@@ -80,7 +80,7 @@ motifs_scored_f <- motifs_scored %>%
     left_join(checkm) %>%
     mutate(
         motif_mod = paste0(motif, "_", mod_type, "_", mod_position),
-        contig_l = paste0(contig, " - ", length, " - ", mge),
+        contig_l = paste0(contig, " - ", round(length / 1000, 0), " kbp - ", mge),
         bin = str_remove(bin, "mmlong2."),
         bin_label = paste0(bin, " - ", mag_qual, " - ", completeness, " - ", contamination)
     ) %>%
@@ -112,24 +112,33 @@ bin_gc_cov <- gc_cov %>%
     filter(bin == BIN) %>%
     arrange(desc(read_coverage_mean))
 
-contigs_of_interest <- bin_gc_cov %>%
-    filter(included) %>%
-    pull(contig)
+# contigs_of_interest <- bin_gc_cov %>%
+#     filter(included) %>%
+#     pull(contig)
+
+contigs_of_interest <- c("contig_11", "contig_318", "contig_1858")
 
 contig_gc_cov <- gc_cov %>%
     filter(contig %in% contigs_of_interest)
 
 gc_cov %>%
     filter(bin != BIN) %>%
-    ggplot(aes(x = gc, y = read_coverage_mean, color = included, shape = mge, size = length)) +
+    ggplot(aes(x = gc, y = read_coverage_mean, shape = mge, size = length)) +
     geom_point(color = "gray50", alpha = 0.6) +
-    geom_point(data = bin_gc_cov, alpha = 0.8) +
-    geom_point(data = contig_gc_cov, alpha = 1, color = "#e9c600") +
+    geom_point(data = bin_gc_cov, alpha = 0.8, color = PLOT_COLORS[[2]]) +
+    geom_point(data = contig_gc_cov, alpha = 1, aes(color = mge)) +
+    scale_color_manual(values = c(PLOT_COLORS[[4]], "#e9c600"), guide = "none") +
+    guides(
+        shape = guide_legend(title = "MGE"),
+        size = guide_legend(title = "Contig length")
+    ) +
     theme_minimal() +
     labs(
         x = "GC content",
         y = "Coverage",
-        color = "Included"
+        color = "Included",
+        title = "Simple Fecal",
+        subtitle = "Contigs added to bin.1.7"
     ) +
     scale_y_log10() +
     theme(
@@ -138,15 +147,6 @@ gc_cov %>%
     )
 
 ggsave("analysis/include_story/GC_cov.png", width = 6, height = 5, dpi = 300)
-
-
-MOD_TYPE_PRETTY <- c(
-    a = "m6",
-    m = "m5",
-    `21839` = "m4"
-)
-
-
 
 
 motifs <- c(
@@ -160,19 +160,22 @@ motifs <- c(
     "GATC_a_1",
     "GCATC_a_2",
     "GGANNNNNNTATC_a_2",
-    "GRTANNNNNNTCC_a_3",
-    "GTANNNNNNCATC_a_2",
-    "KGATGNNNNNNTAC_a_2",
     "RGATCY_a_2",
-    "TTCGAA_a_5"
+    "TTCGAA_a_5",
+    "CCATGG_m_0",
+    "CCWGG_m_1",
+    "GCNGC_m_1",
+    "GATC_m_3"
 )
 
 bin_included <- motifs_scored_f %>%
     filter(included, bin == BIN) %>%
+    filter(contig %in% contigs_of_interest) %>%
     filter(motif_mod %in% motifs) %>%
     mutate(
         contig_l = case_when(
-            contig %in% contigs_of_interest ~ paste0("<span style='color:#e9c600'>", contig_l, "</span>"),
+            contig %in% contigs_of_interest & mge == "plasmid" ~ paste0("<span style='color:", PLOT_COLORS[[4]], "'>", contig_l, "</span>"),
+            contig %in% contigs_of_interest & mge == "virus" ~ paste0("<span style='color:", "#e9c600", "'>", contig_l, "</span>"),
             TRUE ~ contig_l
         )
     ) %>%
@@ -184,7 +187,6 @@ bin_included <- motifs_scored_f %>%
     mutate(
         ns = str_extract(motif, "NNN*"),
         ns = str_length(ns),
-        motif = str_replace(motif, "NNN*", paste0("(N)<sub>", ns, "</sub>")),
         motif_axis = paste0(
             str_sub(motif, 1, mod_position),
             "<strong>",
@@ -194,7 +196,8 @@ bin_included <- motifs_scored_f %>%
             "</sup>",
             "</strong>",
             str_sub(motif, mod_position + 2, -1)
-        )
+        ),
+        motif_axis = str_replace(motif_axis, "NNN*", paste0("(N)<sub>", ns, "</sub>")),
     ) %>%
     select(bin_label, motif_axis, mean, included) %>%
     pivot_wider(names_from = motif_axis, values_from = mean) %>%
@@ -221,7 +224,6 @@ bin_scores %>%
     mutate(
         ns = str_extract(motif, "NNN*"),
         ns = str_length(ns),
-        motif = str_replace(motif, "NNN*", paste0("(N)<sub>", ns, "</sub>")),
         motif_axis = paste0(
             str_sub(motif, 1, mod_position),
             "<strong>",
@@ -231,7 +233,8 @@ bin_scores %>%
             "</sup>",
             "</strong>",
             str_sub(motif, mod_position + 2, -1)
-        )
+        ),
+        motif_axis = str_replace(motif_axis, "NNN*", paste0("(N)<sub>", ns, "</sub>"))
     ) %>%
     group_by(bin_label, motif_axis, included) %>%
     summarise(
@@ -244,7 +247,7 @@ bin_scores %>%
         ),
         mean = ifelse(is.na(mean), 0, mean),
         bin_label = case_when(
-            bin_label == "bin.1.7 - HQ - 99.86 - 0.2" ~ paste0("<span style='color:red'>", bin_label, "</span>"),
+            bin_label == "bin.1.7 - HQ - 99.86 - 0.2" ~ paste0("<strong><span style='color:", PLOT_COLORS[[2]], "'>", bin_label, "</span></strong>"),
             TRUE ~ bin_label
         )
     ) %>%
@@ -256,14 +259,20 @@ bin_scores %>%
     ggplot(aes(x = motif_axis, y = fct_rev(bin_label), fill = mean, label = txt)) +
     geom_tile(color = "gray50") +
     geom_text(aes(label = txt), size = 15) +
-    scale_fill_gradient(low = "white", high = "blue") +
+    scale_fill_gradientn(
+        labels = scales::percent,
+        limits = c(0, 1),
+        colours = c("white", PLOT_COLORS[[4]], PLOT_COLORS[[5]]), na.value = "white",
+        values = c(0, 0.5, 1)
+    ) +
     facet_grid(included ~ ., scales = "free", space = "free") +
     theme_minimal() +
     labs(
         x = "",
         y = "",
         fill = "Methylation degree",
-        title = "Contigs added to bin.1.7"
+        title = "Simple Fecal",
+        subtitle = "Contigs added to bin.1.7"
     ) +
     theme(
         axis.text.x = element_markdown(angle = 90, hjust = 1, vjust = 0.5),
