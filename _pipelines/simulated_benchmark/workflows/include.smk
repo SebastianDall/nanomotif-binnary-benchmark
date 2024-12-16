@@ -13,8 +13,6 @@ DATETIME = datetime.datetime.now().strftime('%Y%m%d_%H%M')
 BASELINE = config["baseline_dir"]
 OUTDIR = config["outdir"]
 
-include: "rules/motif_discovery.smk"
-
 
 rule all:
     input:
@@ -50,11 +48,11 @@ rule create_motifs_scored_file:
     output:
         m = os.path.join(BASELINE, "include_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv")
     threads:
-        50
+        30
     resources:
-        mem = "200G",
+        mem = "100G",
         walltime = "08:00:00",
-        nodetype = "high-mem",
+        nodetype = "shared",
     params:
         MU = os.path.join(SNAKEDIR, "src", "methylation_utils")
     run:
@@ -153,7 +151,7 @@ rule include_dev:
         5
     resources:
         mem = "10G",
-        walltime = "08:00:00",
+        walltime = "01:00:00",
         nodetype = config["partition"],
     shell:
         """

@@ -129,7 +129,7 @@ if __name__ == '__main__':
         )
 
        
-    smaller_contigs_w_methylation = smaller_contigs_w_methylation.filter(pl.col("obs_percentage") < 0.5).get_column("contig")
+    smaller_contigs_w_methylation = smaller_contigs_w_methylation.filter(pl.col("obs_percentage") < 0.2).get_column("contig")
         
 
     contig_bin = contig_bin.to_pandas()

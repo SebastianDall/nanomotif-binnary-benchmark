@@ -95,11 +95,11 @@ rule create_motifs_scored_file:
     output:
         m = os.path.join(BASELINE, "contamination_files", "{sample}", f"motifs-scored-read-methylation-{config['min_valid_read_cov']}.tsv")
     threads:
-        50
+        30
     resources:
-        mem = "200G",
+        mem = "150G",
         walltime = "08:00:00",
-        nodetype = "high-mem",
+        nodetype = "shared",
     params:
         MU = os.path.join(SNAKEDIR, "src", "methylation_utils")
     run:
@@ -198,11 +198,14 @@ rule nanomotif_contamination_dev:
     resources:
         mem = "20G",
         walltime = "08:00:00",
-        nodetype = "default-op",
+        nodetype = "shared",
+    params:
+        num_consensus = config["num_consensus"]
     shell:
         """
         nanomotif detect_contamination \
             --threads {threads} \
+            {params.num_consensus} \
             --pileup {input.p} \
             --assembly {input.a} \
             --bin_motifs {input.b} \
@@ -228,4 +231,4 @@ rule aggregate_benchmarks:
     resources:
         mem = "2G",
         walltime = "00:02:00",
-        nodetype = "default-op",
+        nodetype = "shared",
