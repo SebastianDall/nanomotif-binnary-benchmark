@@ -16,10 +16,10 @@ parser$add_argument("--output", required = TRUE, help = "Path to the output fold
 # Mock args
 args <- list(
     baselinedir = "output/baseline/detect_contamination/",
-    benchmarkdir = "output/benchmarks/include_contigs/2024-11-27_read-level_clustering_init",
+    benchmarkdir = "output/benchmarks/include_contigs/2024-12-12_read-level_classification_lda_rf_knn_std_pca_confidence0.8",
     benchmarks = ".",
     samples = ".",
-    output = "analysis/2024-11-27_clustering_include_init"
+    output = "analysis/2024-12-12_read-level_classification_lda_rf_knn_std_pca_confidence0.8"
 )
 
 # Create output folder if not exists
@@ -38,6 +38,7 @@ library(tidyverse)
 library(ggtext)
 library(janitor)
 library(ggpubr)
+source("src/colors.R")
 
 custom_theme <- theme_bw() +
     theme(
@@ -96,7 +97,12 @@ df_benchmark <- crossing(
 bin_truth <- tibble(sample = samples) %>%
     mutate(
         bin_truth = map(sample, ~ load_file(file.path("data/datasets/", .x, "contig_bin.tsv"), has_header = FALSE))
-    ) %>%
+    )
+
+bin_truth <- bin_truth %>%
+    filter(!str_detect(sample, "w_motif_discovery")) %>%
+    mutate(sample = paste0(sample, "_w_motif_discovery")) %>%
+    bind_rows(bin_truth) %>%
     unnest(bin_truth) %>%
     rename(
         contig = V1,
@@ -119,7 +125,7 @@ include <- df_benchmark %>%
     filter(tib_len > 0) %>%
     select(-tib_len) %>%
     unnest(include) %>%
-    select(sample, benchmark, contig, cluster, bin, assigned_bin, assignment_is_unique)
+    select(sample, benchmark, contig, bin, assigned_bin, confidence, mean_prob)
 
 # Combine data
 unbinned_contigs <- bin_truth %>%
@@ -130,7 +136,12 @@ unbinned_contigs <- bin_truth %>%
 
 
 d_unique <- unbinned_contigs %>% # only unbinned
-    left_join(include %>% filter(assignment_is_unique) %>% select(sample:contig, assigned_bin)) %>%
+    left_join(
+        include %>%
+            filter(confidence == "high_confidence") %>%
+            select(sample:contig, assigned_bin, mean_prob) %>%
+            distinct()
+    ) %>%
     mutate(
         measure = case_when(
             bin_truth == assigned_bin ~ "correct",
@@ -141,20 +152,20 @@ d_unique <- unbinned_contigs %>% # only unbinned
         assignment_type = "unique"
     )
 
-d_candidate <- unbinned_contigs %>%
-    left_join(include %>% filter(!assignment_is_unique) %>% select(sample:contig, assigned_bin)) %>%
-    filter(!is.na(assigned_bin)) %>%
-    mutate(
-        measure = case_when(
-            bin_truth == assigned_bin ~ "correct",
-            bin_truth != assigned_bin ~ "incorrect",
-            TRUE ~ "unknown"
-        )
-    ) %>%
-    group_by(sample, benchmark, contig, measure) %>%
-    summarise(
-        n_bins = n()
-    )
+# d_candidate <- unbinned_contigs %>%
+#     left_join(include %>% filter(!assignment_is_unique) %>% select(sample:contig, assigned_bin)) %>%
+#     filter(!is.na(assigned_bin)) %>%
+#     mutate(
+#         measure = case_when(
+#             bin_truth == assigned_bin ~ "correct",
+#             bin_truth != assigned_bin ~ "incorrect",
+#             TRUE ~ "unknown"
+#         )
+#     ) %>%
+#     group_by(sample, benchmark, contig, measure) %>%
+#     summarise(
+#         n_bins = n()
+#     )
 
 
 
@@ -174,7 +185,7 @@ metrics <- confusion_df %>%
     mutate(
         misclassification_rate = incorrect / (correct + incorrect),
         precision = correct / (correct + incorrect),
-        recall = correct / (correct + unassigned),
+        recall = correct / (correct + unassigned + unassigned),
     ) %>%
     pivot_longer(
         cols = correct:recall,
@@ -204,6 +215,10 @@ m1 <- metrics %>%
     geom_boxplot(outlier.alpha = 0) +
     geom_point(position = position_jitterdodge(jitter.width = 0.15), alpha = 0.6) +
     geom_text(data = metric_labels, aes(label = label, y = 1.05), position = position_dodge(width = 1)) +
+    labs(
+        y = "",
+        x = ""
+    ) +
     # facet_wrap(~sample, scales = "free") +
     # limit y axis
     scale_y_continuous(limits = c(0, 1.05)) +
@@ -218,6 +233,10 @@ m2 <- metrics %>%
     ggplot(aes(x = metric, y = value, color = sample)) +
     geom_boxplot(outlier.alpha = 0) +
     geom_point(position = position_jitterdodge(jitter.width = 0.15), alpha = 0.6) +
+    labs(
+        y = "",
+        x = ""
+    ) +
     # facet_wrap(~sample, scales = "free") +
     # scale_color_manual(values = c("nanomotif" = "#3ab7ff", "developement benchmark" = "#196900")) +
     # limit y axis
@@ -231,13 +250,48 @@ ggarrange(m1, m2, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
 ggsave(file.path(args$output, "metrics_boxplot.png"), width = 10, height = 5)
 
 
+
+# library(PRROC)
+
+# d_filtered <- d_unique %>%
+#     filter(sample == "fragmentation_benchmark_20kb_1800kb_w_motif_discovery") %>%
+#     filter(measure %in% c("correct", "incorrect"))
+
+# d_filtered <- d_filtered %>%
+#     mutate(label = ifelse(measure == "correct", 1, 0))
+
+# calculate_pr <- function(data) {
+#     pr <- pr.curve(scores.class0 = data$mean_prob, weights.class0 = data$label, curve = TRUE)
+#     data.frame(recall = pr$curve[, 1], precision = pr$curve[, 2], benchmark = unique(data$benchmark))
+# }
+
+# pr_data_all <- tibble()
+
+# for (b in unique(d_filtered$benchmark)) {
+#     pr_data <- d_filtered %>%
+#         filter(benchmark == b) %>%
+#         calculate_pr()
+
+#     pr_data_all <- bind_rows(pr_data_all, pr_data)
+# }
+
+
+# ggplot(pr_data_all, aes(x = recall, y = precision, color = benchmark, group = benchmark)) +
+#     geom_line() +
+#     geom_point() +
+#     theme_minimal() +
+#     theme(
+#         legend.position = "none"
+#     )
+
+
 for (s in samples) {
-    motifs_scored <- read_delim(file.path("output/baseline/include_files", s, "motifs-scored-read-methylation-1.tsv"), "\t")
+    motifs_scored <- read_delim(file.path("output/baseline/include_files", s, "motifs-scored-read-methylation-3.tsv"), "\t")
 
 
     motifs_scored_f <- motifs_scored %>%
         filter(mean_read_cov > 2) %>%
-        filter((N_motif_obs * mean_read_cov) >= 40) %>%
+        filter((N_motif_obs * mean_read_cov) >= 24) %>%
         left_join(bin_truth %>% filter(sample == s)) %>%
         rename(bin = bin_truth) %>%
         mutate(
@@ -371,3 +425,77 @@ for (s in samples) {
 #         axis.text.x = element_text(angle = 90, hjust = 1),
 #         axis.text.y = element_markdown()
 #     )
+
+confusion_df <- d_unique %>%
+    filter(sample == "fragmentation_benchmark_20kb_1600kb_w_motif_discovery") %>%
+    group_by(measure, sample, benchmark) %>%
+    summarise(
+        count = n()
+    )
+
+metrics <- crossing(
+    benchmark = benchmarks,
+    measure = c("correct", "incorrect", "unassigned")
+) %>%
+    left_join(confusion_df %>% select(sample, benchmark, measure, count)) %>%
+    fill(sample) %>%
+    pivot_wider(names_from = measure, values_from = count) %>%
+    # fill NA with 0
+    mutate_all(~ replace(., is.na(.), 0)) %>%
+    clean_names() %>%
+    mutate(
+        # misclassification_rate = incorrect / (correct + incorrect),
+        precision = correct / (correct + incorrect),
+        recall = correct / (correct + unassigned + unassigned),
+    ) %>%
+    pivot_longer(
+        cols = correct:recall,
+        names_to = "metric",
+        values_to = "value"
+    )
+
+
+METRICS <- c("precision", "recall")
+
+metric_labels <- metrics %>%
+    group_by(sample, metric) %>%
+    summarise(
+        value = mean(value, na.rm = TRUE)
+    ) %>%
+    mutate(
+        label = paste0(round(value, 2))
+    ) %>%
+    mutate(
+        group = case_when(
+            metric %in% METRICS ~ "metric",
+            TRUE ~ "count"
+        ),
+        y_pos = case_when(
+            metric %in% METRICS ~ 1.05,
+            TRUE ~ 30
+        )
+    )
+
+metrics %>%
+    mutate(
+        group = case_when(
+            metric %in% METRICS ~ "metric",
+            TRUE ~ "count"
+        )
+    ) %>%
+    ggplot(aes(x = metric, y = value)) +
+    geom_boxplot(outlier.alpha = 0) +
+    geom_point(position = position_jitter(width = 0.15), alpha = 0.6) +
+    geom_text(data = metric_labels, aes(label = label, y = y_pos), position = position_dodge(width = 1)) +
+    labs(
+        y = "",
+        x = "",
+        title = "Inclusion Benchmark"
+    ) +
+    facet_wrap(~group, scales = "free") +
+    custom_theme +
+    labs(
+        y = "Count"
+    )
+
+ggsave(file.path(args$output, "sup_metrics_boxplot.png"), width = 5, height = 4)
