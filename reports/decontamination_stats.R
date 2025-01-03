@@ -314,4 +314,4 @@ changed_bin_status %>%
     left_join(df_com %>% filter(decon == "before") %>% select(bin, mag_qual))
 
 
-write_delim(df_com, "analysis/contamination_story/supplmentary_data_3.tsv", delim = "\t")
+write_delim(df_com, "analysis/contamination_story/supplmentary_data_3.csv", delim = ",")
