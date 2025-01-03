@@ -1,0 +1,47 @@
+outdir: data/real_communities
+partition: general
+highmem: general
+
+
+# Settings for nanomotif_dev
+min_valid_read_cov: 3
+
+samples:
+  ZymoFecal:
+    assembly: "data/real_communities/ZymoFecal/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+    pileup: "data/real_communities/ZymoFecal/modkit.pileup.mmlong2.bed"
+    contig_bin: "data/real_communities/ZymoFecal/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/real_communities/ZymoFecal/nanomotif_0.4.13/bin-motifs.tsv"
+    mem: 300G
+    batches: 0
+  anaerobic_digester:
+    assembly: "data/real_communities/anaerobic_digester/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+    pileup: "data/real_communities/anaerobic_digester/modkit.pileup.mmlong2.bed"
+    contig_bin: "data/real_communities/anaerobic_digester/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/real_communities/anaerobic_digester/nanomotif_0.4.13/bin-motifs.tsv"
+    mem: 450G
+    batches: 15000
+  fecal_inhouse:
+    assembly: "data/real_communities/fecal_inhouse/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+    pileup: "data/real_communities/fecal_inhouse/modkit.pileup.mmlong2.bed"
+    contig_bin: "data/real_communities/fecal_inhouse/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/real_communities/fecal_inhouse/nanomotif_0.4.13/bin-motifs.tsv"
+    mem: 350G
+    batches: 0
+  fecal_simple_recovered:
+    assembly: "data/real_communities/fecal_simple_recovered/mmlong2_lite/results/mmlong2_assembly.fasta"
+    pileup: "data/real_communities/fecal_simple_recovered/mod_pileup.bed"
+    contig_bin: "data/real_communities/fecal_simple_recovered/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/real_communities/fecal_simple_recovered/nanomotif_0.4.16/bin-motifs.tsv"
+    mem: 80G
+    batches: 0
+  mfd02199_backup:
+    assembly: "data/real_communities/mfd02199_backup/mmlong2_lite/results/mmlong2_lite_assembly.fasta"
+    pileup: "data/real_communities/mfd02199_backup/modkit.pileup.mmlong2.bed"
+    contig_bin: "data/real_communities/mfd02199_backup/mmlong2_lite/tmp/binning/contig_bin.tsv"
+    bin_motifs: "data/real_communities/mfd02199_backup/nanomotif_0.4.13/bin-motifs.tsv"
+    mem: 1000G
+    batches: 50000
+
+
+

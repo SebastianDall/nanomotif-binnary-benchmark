@@ -35,9 +35,9 @@ rule map_mod_calls:
         mem = "50g",
         ref = "10g"
     resources:
-        mem ="400G",
-        nodetype="high-mem",
-        walltime="2-00:00:00",
+        mem =config["mem_high"],
+        nodetype=config["nodetype_high"],
+        walltime="1-00:00:00",
     shell:
         """
         minimap2 -ax map-ont -t {threads} -I {params.mem} -K {params.ref} -y {input.assembly} {input.reads} | \
@@ -56,7 +56,7 @@ rule index_bam:
     threads: 10,
     resources:
         mem ="10G",
-        nodetype="general",
+        nodetype=config["nodetype_low"],
         walltime="1-00:00:00",
     shell:
         """
@@ -73,9 +73,9 @@ rule pileup:
         pileup = os.path.join(OUTDIR, "{dataset}", "mod_pileup.bed"),
     threads: 40,
     resources:
-        mem ="400G",
-        nodetype="high-mem",
-        walltime="3-00:00:00",
+        mem = config["mem_high"],
+        nodetype=config["nodetype_high"],
+        walltime="1-00:00:00",
     shell:
         """
         modkit pileup -t {threads} --only-tabs {input.bam} {output.pileup} 
@@ -94,8 +94,8 @@ rule map_cov:
         mem = "50g",
         ref = "10g"
     resources:
-        mem ="400G",
-        nodetype="high-mem",
+        mem =config["mem_high"],
+        nodetype=config["nodetype_high"],
         walltime="2-00:00:00",
     shell:
         """
@@ -115,7 +115,7 @@ rule coverage_contigs_bed:
         1
     resources:
         mem = "1G",
-        nodetype = "general",
+        nodetype = config["nodetype_low"],
         walltime = "10:00",
     shell:
         """
@@ -133,7 +133,7 @@ rule coverage_extract:
     threads: 1
     resources:
         mem = "60G",
-        nodetype = "high-mem",
+        nodetype = config["nodetype_high"],
         walltime = "9:00:00",
     shell:
         """
