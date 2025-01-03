@@ -1,4 +1,4 @@
-# Nanomotif development
+# Nanomotif binnary benchmark
 Additional code for reproducing results in "Nanomotif: Leveraging DNA Methylation Motifs for Genome Recovery and Host Association of Plasmids in Metagenomes from Complex Microbial Communities".
 
 ## Installation
